@@ -1,0 +1,966 @@
+html,body{
+  height:100%;
+  margin:0;
+  font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+  background: var(--bg);
+  color: white;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  overflow:hidden;
+}
+
+.app { 
+  width:100dvw;
+  height:100dvh; 
+  display:flex; 
+  flex-direction:column;
+  background: url("../assets/bg/bg.png") repeat;
+}
+
+#loading {
+  /* Fix it to the edges of the screen */
+  position: fixed;
+  top: 0;
+  left: 0;
+  
+  /* Cover the full width and height of the viewport */
+  width: 100vw;
+  height: 100vh;
+  
+  /* The color and "stacking" priority */
+  background-color: #ffffff;
+  z-index: 9999; /* Higher than everything else on your page */
+  
+  /* Optional: center a spinner or text inside if you add any later */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.tools {
+  position:fixed;        /* stick to left */
+  left: 0dvw;
+  width: 12dvw;            /* toolbar width */
+  height: 100dvh;          /* full screen height */
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 2dvh;
+  align-items: flex-start;
+  box-sizing: border-box;
+
+  padding-top: 5dvh;
+  padding-bottom: 5dvh;
+
+  overflow-y: auto;     /* 🔑 scrollable */
+  overflow-x: hidden;
+
+  background: rgb(151, 250, 255);
+  z-index: 10;
+}
+
+.tools::-webkit-scrollbar {
+  width: 0px;
+}
+
+.tool-button {
+  position: relative;
+  left: -2.1dvw;
+  width: 90%;
+  height: 14%;
+  border: none;
+  border-radius: 10px;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  transition: transform 0.25s ease;
+  flex-shrink: 0;
+}
+
+/* move to the right when active */
+.tool-button.active {
+  transform: translateX(1.5dvw) scale(1.1);
+}
+
+
+/* 
+Bucket-3 (background)
+Bucket-2 (::before)
+Bucket-1 (::after) */
+
+
+
+/* Individual tool icons */
+#bucket {
+  position: relative;
+  background-image: url("../assets/tools/bucket/Bucket-1.png");
+  height: 22%;
+  --bucket-color: #FFA500; /* variable tint color */
+}
+
+#bucket::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: 
+      url("../assets/tools/bucket/Bucket-5.png") center/contain no-repeat,
+      url("../assets/tools/bucket/Bucket-4.png") center/contain no-repeat,
+      url("../assets/tools/bucket/Bucket-3.png") center/contain no-repeat;
+}
+
+#bucket::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  background: var(--bucket-color);
+
+  -webkit-mask:
+    url("../assets/tools/bucket/Bucket-2.png") center/contain no-repeat;
+
+  pointer-events: none;
+}
+
+
+
+
+
+
+
+
+#crayon {
+  position: relative;
+    --crayon-color: #9000D3; /* variable tint color */
+
+  background: var(--crayon-color);
+
+  -webkit-mask:
+    url("../assets/tools/crayon/Crayon-1.png") center/contain no-repeat;
+}
+
+#crayon::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: 
+              url("../assets/tools/crayon/Crayon-2.png") center / contain no-repeat,
+              url("../assets/tools/crayon/Crayon-3.png") center/contain no-repeat,
+              url("../assets/tools/crayon/Crayon-4.png") center/contain no-repeat;
+}
+
+
+
+
+
+
+
+
+
+#marker {
+  position: relative;
+  --marker-color: #DA4527; /* variable tint color */
+
+  background: 
+  url("../assets/tools/sketchpen/Roller-1.png") center / contain no-repeat;
+
+}
+
+#marker::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  background: 
+  var(--marker-color);
+
+  -webkit-mask:
+    url("../assets/tools/sketchpen/Roller-2.png") center/contain no-repeat;
+}
+
+#marker::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: 
+              url("../assets/tools/sketchpen/Roller-3.png") center / contain no-repeat,
+              url("../assets/tools/sketchpen/Roller-4.png") center/contain no-repeat;
+}
+
+
+
+
+
+
+
+
+#brush {
+  position: relative;
+  background: url("../assets/tools/brush/Brush-1.png") center/contain no-repeat;
+  
+  --brush-color: #FFFF00; /* variable tint color */
+}
+
+#brush::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+
+  background: var(--brush-color);
+
+  -webkit-mask:
+    url("../assets/tools/brush/Brush-2.png") center/contain no-repeat;
+
+  pointer-events: none;
+}
+
+#brush::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  background: 
+      url("../assets/tools/brush/Brush-3.png") center/contain no-repeat,
+      url("../assets/tools/brush/Brush-4.png") center/contain no-repeat;
+}
+
+
+
+
+
+
+
+
+
+#paint {
+  position: relative;
+  background: url("../assets/tools/brush2/Pencil-1.png") center/contain no-repeat;
+  
+  --paint-color: #00FF00; /* variable tint color */
+}
+
+#paint::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+
+  background: var(--paint-color);
+
+  -webkit-mask:
+    url("../assets/tools/brush2/Pencil-2.png") center/contain no-repeat;
+
+  pointer-events: none;
+}
+
+#paint::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  background: 
+    url("../assets/tools/brush2/Pencil-3.png") center/contain no-repeat,
+    url("../assets/tools/brush2/Pencil-4.png") center/contain no-repeat,
+    url("../assets/tools/brush2/Pencil-5.png") center/contain no-repeat;
+}
+
+#paint.locked {
+  filter: brightness(60%);
+  cursor: not-allowed;
+}
+
+#paint.locked::after {
+  /* Override the highlight and show an emoji instead */
+  content: "🔒"; 
+  /* background: url(../assets/buttons/Lock\ Icon.png) center/contain no-repeat; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  text-shadow: 0 2px 5px rgba(0,0,0,0.5);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+#spray {
+  height: 22%;
+  position: relative;
+  background: url("../assets/tools/spraycan/Spray-Can-2.png") center/contain no-repeat;
+
+  --spray-color: #3BC8FF; /* variable tint color */
+} 
+
+#spray::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  /* background: url("../assets/tools/spraycan/Spray-Can-1.png") center/contain no-repeat; */
+
+  background: var(--spray-color);
+  -webkit-mask:
+    url("../assets/tools/spraycan/Spray-Can-2.png") center/contain no-repeat;
+}
+
+#spray::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("../assets/tools/spraycan/Spray-Can-1.png") center/contain no-repeat,
+              url("../assets/tools/spraycan/Spray-Can-3.png") center/contain no-repeat,
+              url("../assets/tools/spraycan/Spray-Can-4.png") center/contain no-repeat,
+              url("../assets/tools/spraycan/Spray-Can-5.png") center/contain no-repeat;
+} 
+
+#spray.locked {
+  filter: grayscale(0) opacity(1) brightness(60%);
+  cursor: not-allowed;
+}
+
+#spray.locked::after {
+  /* Override the highlight and show an emoji instead */
+  content: "🔒"; 
+  /* background: url(../assets/buttons/Lock\ Icon.png) center/contain no-repeat; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  text-shadow: 0 2px 5px rgba(0,0,0,0.5);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+#glitter {
+  position: relative;
+  --glitter-color: #008080; /* variable tint color */
+}
+
+
+#glitter::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+
+
+  background: var(--glitter-color);
+
+  -webkit-mask:
+    url("../assets/tools/glitterpen/Glitter-Pen-1.png") center/contain no-repeat;
+
+  pointer-events: none;
+}
+
+
+
+#glitter::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  background: 
+      url("../assets/tools/glitterpen/Glitter-Pen-2.png") center/contain no-repeat,
+      url("../assets/tools/glitterpen/Glitter-Pen-3.png") center/contain no-repeat,
+      url("../assets/tools/glitterpen/Glitter-Pen-4.png") center/contain no-repeat,
+      url("../assets/tools/glitterpen/Glitter-Pen-5.png") center/contain no-repeat;
+
+  pointer-events: none;
+}
+
+#glitter.locked {
+  filter: brightness(60%);
+  cursor: not-allowed;
+}
+
+#glitter.locked::after {
+  /* Override the highlight and show an emoji instead */
+  content: "🔒"; 
+  /* background: url(../assets/buttons/Lock\ Icon.png) center/contain no-repeat; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  text-shadow: 0 2px 5px rgba(0,0,0,0.5);
+}
+
+
+
+
+
+
+
+#rainbow_glitter::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  background: 
+      url("../assets/tools/Rainbow-Glitter-Pen_tool.png") center/contain no-repeat;
+
+  pointer-events: none;
+}
+
+#rainbow_glitter.locked {
+  filter: brightness(60%);
+  cursor: not-allowed;
+}
+
+#rainbow_glitter.locked::after {
+  /* Override the highlight and show an emoji instead */
+  content: "🔒"; 
+  /* background: url(../assets/buttons/Lock\ Icon.png) center/contain no-repeat; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  text-shadow: 0 2px 5px rgba(0,0,0,0.5);
+}
+
+
+
+
+
+#texture {
+  position: relative;
+  -webkit-mask:
+    url("../assets/tools/pattern/PatternMask.png") center/contain no-repeat;
+}
+
+#texture::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+#texture.locked {
+  filter: brightness(60%);
+  cursor: not-allowed;
+}
+
+#texture.locked::after {
+  /* Override the highlight and show an emoji instead */
+  content: "🔒"; 
+  /* background: url(../assets/buttons/Lock\ Icon.png) center/contain no-repeat; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  text-shadow: 0 2px 5px rgba(0,0,0,0.5);
+}
+
+
+
+#sticker{
+  background-image: url("../assets/tools/Sticker_tool.png");
+}
+
+#sticker.locked {
+  filter: brightness(60%);
+  cursor: not-allowed;
+}
+
+#sticker.locked::after {
+  /* Override the highlight and show an emoji instead */
+  content: "🔒"; 
+  /* background: url(../assets/buttons/Lock\ Icon.png) center/contain no-repeat; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  text-shadow: 0 2px 5px rgba(0,0,0,0.5);
+}
+
+
+
+
+#soap_bubble::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  background: 
+      url("../assets/tools/Soap\ Bubble\ Tool.png") center/contain no-repeat;
+
+  pointer-events: none;
+}
+
+#soap_bubble.locked {
+  filter: brightness(60%);
+  cursor: not-allowed;
+}
+
+#soap_bubble.locked::after {
+  /* Override the highlight and show an emoji instead */
+  content: "🔒"; 
+  /* background: url(../assets/buttons/Lock\ Icon.png) center/contain no-repeat; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  text-shadow: 0 2px 5px rgba(0,0,0,0.5);
+}
+
+
+
+
+
+#eraser{
+  background-image: url("../assets/tools/Eraser_tool.png");
+}
+
+#delete{
+  background-image: url("../assets/buttons/bin.png");
+}
+
+#home{
+  background-image: url("../assets/buttons/home.png") ;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  background-color: transparent;
+  border: none;
+  position: fixed;
+  cursor: pointer;
+
+  top: 3dvh;
+  right: 1.5dvw;
+  width: 9vmin;
+  height: 9vmin;
+  z-index: 5;
+}
+
+
+#bin{
+  background-image: url("../assets/buttons/bin.png") ;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  background-color: transparent;
+  border: none;
+  position: fixed;
+  cursor: pointer;
+
+  bottom: 4dvh;
+  right: 1.6dvw;
+  width: 9vmin;
+  height: 9vmin;
+  z-index: 5;
+}
+
+
+#size {
+  position: fixed;
+  top: 17dvh;
+  right: 2dvw;
+  z-index: 5;
+
+  width: 7vmin;
+  height: 7vmin;
+
+  background-color: transparent;
+  border: 2px solid rgb(94, 94, 94);
+  border-radius: 6px; /* optional: slightly rounded box */
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+}
+
+
+#size .dot {
+  background-color: rgb(94, 94, 94);
+  border-radius: 50%;
+
+  transition:
+    width 0.25s ease,
+    height 0.25s ease;
+}
+
+/* Brush sizes */
+#size.xsmall .dot {
+  width: 1vmin;
+  height: 1vmin;
+}
+
+#size.small .dot {
+  width: 2vmin;
+  height: 2vmin;
+}
+
+#size.medium .dot {
+  width: 3.5vmin;
+  height: 3.5vmin;
+}
+
+#size.large .dot {
+  width: 5vmin;
+  height: 5vmin;
+}
+
+
+
+.colors {
+  position: fixed;
+  width: 6dvw;          /* color strip width */
+  height: 100dvh;
+
+  left: 12dvw;
+
+  display: flex;
+  flex-direction: column;
+  gap: 2dvh;
+
+  align-items: center;
+  box-sizing: border-box;
+
+  padding-top: 2dvh;
+  padding-bottom: 2dvh;
+
+  overflow-y: auto;     /* 🔑 scrollable */
+  overflow-x: hidden;
+
+  background: rgba(151, 250, 255, 0.322);
+  z-index: 10;
+  backdrop-filter: blur(10px);
+}
+
+.colors::-webkit-scrollbar {
+  width: 0px;
+}
+.colors::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,0.3);
+  border-radius: 10px;
+}
+
+.color-button {
+  width: 5dvw;
+  height: 5dvw;
+  border-radius: 35%;
+  border: none;
+  flex-shrink: 0; /* prevents shrinking */
+  outline: 0.3dvh solid #ffffff;
+  
+}
+
+
+.color-button.active {
+  outline: none;
+  box-shadow: 
+    0 0 0.1dvh 0.4dvh #FFFF00, 
+    0 0 1.5dvh 0.3dvh rgba(255, 255, 0, 0.7),
+    inset 0 0 1dvh 0.1dvh rgba(255, 255, 0, 0.5);
+}
+
+
+.stickers {
+  position: fixed;
+  width: 6dvw;          /* color strip width */
+  height: 100dvh;
+
+  left: 12dvw;
+
+  display: flex;
+  flex-direction: column;
+  gap: 2dvh;
+
+  align-items: center;
+  box-sizing: border-box;
+
+  padding-top: 2dvh;
+  padding-bottom: 2dvh;
+
+  overflow-y: auto;     /* 🔑 scrollable */
+  overflow-x: hidden;
+
+  background: rgba(151, 250, 255, 0.322);
+  z-index: 10;
+  backdrop-filter: blur(10px);
+}
+
+.stickers::-webkit-scrollbar {
+  width: 0px;
+}
+.stickers::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,0.3);
+  border-radius: 10px;
+}
+
+.sticker-button {
+  width: 5dvw;
+  height: 5dvw;
+  border-radius: 35%;
+  border: none;
+  flex-shrink: 0; /* prevents shrinking */
+  outline-offset: 0.3dvh;
+  outline: 0.3dvh solid #ffffff;
+}
+
+/* active outline */
+.sticker-button.active {
+  outline: 0.6dvh solid #000;   /* change color if needed */
+  outline-offset: 0.3dvh;       /* keeps outline outside the circle */
+}
+
+
+#sticker0        { background: url("../assets/stickers/love/Love_Stickers_01.png") center/contain no-repeat; }
+#sticker1        { background: url("../assets/stickers/love/Love_Stickers_02.png") center/contain no-repeat; }
+#sticker2        { background: url("../assets/stickers/love/Love_Stickers_03.png") center/contain no-repeat; }
+#sticker3        { background: url("../assets/stickers/love/Love_Stickers_04.png") center/contain no-repeat; }
+#sticker4        { background: url("../assets/stickers/love/Love_Stickers_05.png") center/contain no-repeat; }
+#sticker5        { background: url("../assets/stickers/love/Love_Stickers_06.png") center/contain no-repeat; }
+#sticker6        { background: url("../assets/stickers/love/Love_Stickers_07.png") center/contain no-repeat; }
+#sticker7        { background: url("../assets/stickers/love/Love_Stickers_08.png") center/contain no-repeat; }
+#sticker8        { background: url("../assets/stickers/love/Love_Stickers_09.png") center/contain no-repeat; }
+#sticker9        { background: url("../assets/stickers/love/Love_Stickers_10.png") center/contain no-repeat; }
+#sticker10       { background: url("../assets/stickers/love/Love_Stickers_11.png") center/contain no-repeat; }
+#sticker11       { background: url("../assets/stickers/love/Love_Stickers_12.png") center/contain no-repeat; }
+#sticker12       { background: url("../assets/stickers/love/Love_Stickers_13.png") center/contain no-repeat; }
+#sticker13       { background: url("../assets/stickers/love/Love_Stickers_14.png") center/contain no-repeat; }
+#sticker14       { background: url("../assets/stickers/love/Love_Stickers_15.png") center/contain no-repeat; }
+#sticker15       { background: url("../assets/stickers/love/Love_Stickers_16.png") center/contain no-repeat; }
+#sticker16       { background: url("../assets/stickers/love/Love_Stickers_17.png") center/contain no-repeat; }
+#sticker17       { background: url("../assets/stickers/love/Love_Stickers_18.png") center/contain no-repeat; }
+#sticker18       { background: url("../assets/stickers/love/Love_Stickers_19.png") center/contain no-repeat; }
+#sticker19       { background: url("../assets/stickers/love/Love_Stickers_20.png") center/contain no-repeat; }
+#sticker20       { background: url("../assets/stickers/love/Love_Stickers_21.png") center/contain no-repeat; }
+#sticker21       { background: url("../assets/stickers/love/Love_Stickers_22.png") center/contain no-repeat; }
+#sticker22       { background: url("../assets/stickers/love/Love_Stickers_23.png") center/contain no-repeat; }
+#sticker23       { background: url("../assets/stickers/love/Love_Stickers_24.png") center/contain no-repeat; }
+
+#sticker24       { background: url("../assets/stickers/random/Random-Stickers_00.png") center/contain no-repeat; }
+#sticker25       { background: url("../assets/stickers/random/Random-Stickers_01.png") center/contain no-repeat; }
+#sticker26       { background: url("../assets/stickers/random/Random-Stickers_02.png") center/contain no-repeat; }
+#sticker27       { background: url("../assets/stickers/random/Random-Stickers_03.png") center/contain no-repeat; }
+#sticker28       { background: url("../assets/stickers/random/Random-Stickers_04.png") center/contain no-repeat; }
+#sticker29       { background: url("../assets/stickers/random/Random-Stickers_05.png") center/contain no-repeat; }
+#sticker30       { background: url("../assets/stickers/random/Random-Stickers_06.png") center/contain no-repeat; }
+#sticker31       { background: url("../assets/stickers/random/Random-Stickers_07.png") center/contain no-repeat; }
+#sticker32       { background: url("../assets/stickers/random/Random-Stickers_08.png") center/contain no-repeat; }
+#sticker33       { background: url("../assets/stickers/random/Random-Stickers_09.png") center/contain no-repeat; }
+#sticker34       { background: url("../assets/stickers/random/Random-Stickers_10.png") center/contain no-repeat; }
+#sticker35       { background: url("../assets/stickers/random/Random-Stickers_11.png") center/contain no-repeat; }
+#sticker36       { background: url("../assets/stickers/random/Random-Stickers_12.png") center/contain no-repeat; }
+#sticker37       { background: url("../assets/stickers/random/Random-Stickers_13.png") center/contain no-repeat; }
+#sticker38       { background: url("../assets/stickers/random/Random-Stickers_14.png") center/contain no-repeat; }
+#sticker39       { background: url("../assets/stickers/random/Random-Stickers_15.png") center/contain no-repeat; }
+#sticker40       { background: url("../assets/stickers/random/Random-Stickers_16.png") center/contain no-repeat; }
+#sticker41       { background: url("../assets/stickers/random/Random-Stickers_17.png") center/contain no-repeat; }
+
+#sticker42       { background: url("../assets/stickers/ocean/Ocean_Stickers_00.png") center/contain no-repeat; }
+#sticker43       { background: url("../assets/stickers/ocean/Ocean_Stickers_01.png") center/contain no-repeat; }
+#sticker44       { background: url("../assets/stickers/ocean/Ocean_Stickers_02.png") center/contain no-repeat; }
+#sticker45       { background: url("../assets/stickers/ocean/Ocean_Stickers_03.png") center/contain no-repeat; }
+#sticker46       { background: url("../assets/stickers/ocean/Ocean_Stickers_04.png") center/contain no-repeat; }
+#sticker47       { background: url("../assets/stickers/ocean/Ocean_Stickers_05.png") center/contain no-repeat; }
+#sticker48       { background: url("../assets/stickers/ocean/Ocean_Stickers_06.png") center/contain no-repeat; }
+#sticker49       { background: url("../assets/stickers/ocean/Ocean_Stickers_07.png") center/contain no-repeat; }
+#sticker50       { background: url("../assets/stickers/ocean/Ocean_Stickers_08.png") center/contain no-repeat; }
+
+#sticker51       { background: url("../assets/stickers/halloween/Halloween_Stickers_00.png") center/contain no-repeat; }
+#sticker52       { background: url("../assets/stickers/halloween/Halloween_Stickers_01.png") center/contain no-repeat; }
+#sticker53       { background: url("../assets/stickers/halloween/Halloween_Stickers_02.png") center/contain no-repeat; }
+#sticker54       { background: url("../assets/stickers/halloween/Halloween_Stickers_03.png") center/contain no-repeat; }
+#sticker55       { background: url("../assets/stickers/halloween/Halloween_Stickers_04.png") center/contain no-repeat; }
+#sticker56       { background: url("../assets/stickers/halloween/Halloween_Stickers_05.png") center/contain no-repeat; }
+#sticker57       { background: url("../assets/stickers/halloween/Halloween_Stickers_06.png") center/contain no-repeat; }
+#sticker58       { background: url("../assets/stickers/halloween/Halloween_Stickers_07.png") center/contain no-repeat; }
+#sticker59       { background: url("../assets/stickers/halloween/Halloween_Stickers_08.png") center/contain no-repeat; }
+#sticker60       { background: url("../assets/stickers/halloween/Halloween_Stickers_09.png") center/contain no-repeat; }
+#sticker61       { background: url("../assets/stickers/halloween/Halloween_Stickers_10.png") center/contain no-repeat; }
+
+#sticker62       { background: url("../assets/stickers/christmas/Christmas_Stickers_00.png") center/contain no-repeat; }
+#sticker63       { background: url("../assets/stickers/christmas/Christmas_Stickers_01.png") center/contain no-repeat; }
+#sticker64       { background: url("../assets/stickers/christmas/Christmas_Stickers_02.png") center/contain no-repeat; }
+#sticker65       { background: url("../assets/stickers/christmas/Christmas_Stickers_03.png") center/contain no-repeat; }
+#sticker66       { background: url("../assets/stickers/christmas/Christmas_Stickers_04.png") center/contain no-repeat; }
+#sticker67       { background: url("../assets/stickers/christmas/Christmas_Stickers_05.png") center/contain no-repeat; }
+#sticker68       { background: url("../assets/stickers/christmas/Christmas_Stickers_06.png") center/contain no-repeat; }
+#sticker69       { background: url("../assets/stickers/christmas/Christmas_Stickers_07.png") center/contain no-repeat; }
+#sticker70       { background: url("../assets/stickers/christmas/Christmas_Stickers_08.png") center/contain no-repeat; }
+#sticker71       { background: url("../assets/stickers/christmas/Christmas_Stickers_09.png") center/contain no-repeat; }
+#sticker72       { background: url("../assets/stickers/christmas/Christmas_Stickers_10.png") center/contain no-repeat; }
+#sticker73       { background: url("../assets/stickers/christmas/Christmas_Stickers_11.png") center/contain no-repeat; }
+#sticker74       { background: url("../assets/stickers/christmas/Christmas_Stickers_12.png") center/contain no-repeat; }
+#sticker75       { background: url("../assets/stickers/christmas/Christmas_Stickers_13.png") center/contain no-repeat; }
+#sticker76       { background: url("../assets/stickers/christmas/Christmas_Stickers_14.png") center/contain no-repeat; }
+#sticker77       { background: url("../assets/stickers/christmas/Christmas_Stickers_15.png") center/contain no-repeat; }
+#sticker78       { background: url("../assets/stickers/christmas/Christmas_Stickers_16.png") center/contain no-repeat; }
+#sticker79       { background: url("../assets/stickers/christmas/Christmas_Stickers_17.png") center/contain no-repeat; }
+#sticker80       { background: url("../assets/stickers/christmas/Christmas_Stickers_18.png") center/contain no-repeat; }
+
+
+
+
+
+
+
+.textures {
+  position: fixed;
+  width: 6dvw;          /* color strip width */
+  height: 100dvh;
+
+  left: 12dvw;
+
+  display: flex;
+  flex-direction: column;
+  gap: 2dvh;
+
+  align-items: center;
+  box-sizing: border-box;
+
+  padding-top: 2dvh;
+  padding-bottom: 2dvh;
+
+  overflow-y: auto;     /* 🔑 scrollable */
+  overflow-x: hidden;
+
+  background: rgba(151, 250, 255, 0.322);
+  z-index: 10;
+  backdrop-filter: blur(10px);
+}
+
+.textures::-webkit-scrollbar {
+  width: 0px;
+}
+.textures::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,0.3);
+  border-radius: 10px;
+}
+
+.texture-button {
+  width: 5dvw;
+  height: 5dvw;
+  border-radius: 10%;
+  border: none;
+  flex-shrink: 0; /* prevents shrinking */
+  outline-offset: 0.3dvh;
+  outline: 0.3dvh solid #ffffff;
+  
+}
+
+/* active outline */
+.texture-button.active {
+  outline: 0.6dvh solid #000;   /* change color if needed */
+  outline-offset: 0.3dvh;       /* keeps outline outside the circle */
+}
+
+
+
+
+
+
+#canvas-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    transform-origin: top left; /* CRITICAL FOR MATH */
+    touch-action: none; /* CRITICAL FOR MOBILE */
+    will-change: transform;
+}
+
+.ui-layer {
+    position: absolute;
+    inset: 0;
+    z-index: 100;
+    pointer-events: none; /* Let clicks pass through empty space */
+}
+
+.ui-layer button {
+    pointer-events: auto; /* Make buttons clickable again */
+}
+
+
+
+canvas {
+  touch-action: none; /* CRITICAL for mobile */
+  position: absolute;
+  inset: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* #baseCanvas { z-index: 1; background-image: url("/assets/book/pink_bg_book.png") ; background-repeat: no-repeat;} */
+#baseCanvas { z-index: 1; background-color: white; border-radius: 25px; }
+#liveCanvas { z-index: 2; border-radius: 25px; }
+#imageCanvas { z-index: 3; pointer-events: none; border-radius: 25px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);}
+#glitterCanvas{ z-index: 4; border-radius: 25px; pointer-events: none; }
+
+
+
+.parental-overlay {
+    position: fixed;
+    inset: 0; /* Cover full screen */
+    background: rgba(0, 0, 0, 0.336); /* Subtle white tint */
+    backdrop-filter: blur(3px);        /* Frosted glass blur */
+    -webkit-backdrop-filter: blur(15px); /* Safari support */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    pointer-events: none;
+}
+
+.timer-wrapper {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.countdown-number {
+    position: absolute;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font-size: 100px;
+    font-weight: 700;
+    color: white;
+    text-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.progress-ring__fill {
+    transition: stroke-dashoffset 0.1s linear;
+    transform: rotate(-90deg);
+    transform-origin: center;
+    /* Circumference = 2 * PI * R (2 * 3.14 * 80) ≈ 502 */
+    stroke-dasharray: 502;
+    stroke-dashoffset: 502;
+}
+
+.parental-overlay, .countdown-number, .parental-button {
+    /* Prevents the user from selecting text inside the overlay */
+    -webkit-user-select: none;  /* Safari */
+    -ms-user-select: none;      /* IE 10 and 11 */
+    user-select: none;          /* Standard syntax */
+    
+    /* Prevents the blue "tap highlight" on mobile devices */
+    -webkit-tap-highlight-color: transparent;
+    
+    /* Crucial for mobile: stops the "Magnifying Glass" or copy-paste menu */
+    -webkit-touch-callout: none;
+}
+
+.hidden { display: none !important; }
