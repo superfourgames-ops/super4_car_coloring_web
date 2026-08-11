@@ -227,10 +227,10 @@ export class RendererManager {
         const H = window.innerHeight;
         const ratio = 16 / 9;
 
-        // 25% UI space on the left
-        const leftPadding = W * 0.185;
+        // 25% UI space on the right
+        const leftPadding = W * 0.075;
         
-        const rightPadding = W * 0.075;
+        const rightPadding = W * 0.191;
         const availableWidth = W - leftPadding - rightPadding;
         // Fit 16:9 canvas inside remaining area
         let cssW = availableWidth;

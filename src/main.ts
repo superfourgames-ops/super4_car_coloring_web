@@ -1,4 +1,7 @@
 import { App } from './core/App.js';
+import { initDoodleBackground } from './utils/doodles.js';
+
+initDoodleBackground();
 
 const wrap = document.getElementById('wrap') as HTMLElement;
 const baseCanvas = document.getElementById('baseCanvas') as HTMLCanvasElement;

@@ -1,36 +1,66 @@
-html,body{
-  height:100%;
-  margin:0;
-  font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
-  background: var(--bg);
-  color: white;
-  -webkit-font-smoothing:antialiased;
-  -moz-osx-font-smoothing:grayscale;
-  overflow:hidden;
+:root {
+  --bg: rgb(170, 218, 251);
 }
 
-.app { 
-  width:100dvw;
-  height:100dvh; 
-  display:flex; 
-  flex-direction:column;
-  background: url("../assets/bg/bg.png") repeat;
+html,
+body {
+  height: 100%;
+  margin: 0;
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+  background-color: rgb(170, 218, 251);
+  color: white;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow: hidden;
 }
+
+.app {
+  width: 100dvw;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background-color: rgb(170, 218, 251);
+  position: relative;
+  overflow: hidden;
+}
+
+.bg-doodles {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+  user-select: none;
+}
+
+.doodle {
+  position: absolute;
+  pointer-events: none;
+  user-select: none;
+  max-width: 45px;
+  max-height: 45px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.04));
+}
+
 
 #loading {
   /* Fix it to the edges of the screen */
   position: fixed;
   top: 0;
   left: 0;
-  
+
   /* Cover the full width and height of the viewport */
   width: 100vw;
   height: 100vh;
-  
+
   /* The color and "stacking" priority */
   background-color: #ffffff;
-  z-index: 9999; /* Higher than everything else on your page */
-  
+  z-index: 9999;
+  /* Higher than everything else on your page */
+
   /* Optional: center a spinner or text inside if you add any later */
   display: flex;
   justify-content: center;
@@ -38,25 +68,32 @@ html,body{
 }
 
 .tools {
-  position:fixed;        /* stick to left */
-  left: 0dvw;
-  width: 12dvw;            /* toolbar width */
-  height: 100dvh;          /* full screen height */
+  position: fixed;
+  /* stick to right */
+  right: 0dvw;
+  width: 12dvw;
+  /* toolbar width */
+  height: 100dvh;
+  /* full screen height */
 
   display: flex;
   flex-direction: column;
 
   gap: 2dvh;
-  align-items: flex-start;
+  align-items: flex-end;
   box-sizing: border-box;
 
   padding-top: 5dvh;
   padding-bottom: 5dvh;
 
-  overflow-y: auto;     /* 🔑 scrollable */
+  overflow-y: auto;
+  /* 🔑 scrollable */
   overflow-x: hidden;
 
-  background: rgb(151, 250, 255);
+  background: linear-gradient(180deg, rgba(195, 250, 215, 0.9) 0%, rgba(155, 238, 180, 0.8) 100%);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  box-shadow: -4px 0 25px rgba(20, 90, 50, 0.1), inset 1px 0 0 rgba(255, 255, 255, 0.8);
   z-index: 10;
 }
 
@@ -66,7 +103,7 @@ html,body{
 
 .tool-button {
   position: relative;
-  left: -2.1dvw;
+  right: -2.1dvw;
   width: 90%;
   height: 14%;
   border: none;
@@ -75,13 +112,18 @@ html,body{
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
+  transform: scaleX(-1);
   transition: transform 0.25s ease;
   flex-shrink: 0;
 }
 
-/* move to the right when active */
+/* move to the left when active */
 .tool-button.active {
-  transform: translateX(1.5dvw) scale(1.1);
+  transform: translateX(-1.5dvw) scaleX(-1) scale(1.1);
+}
+
+.tool-button.locked::after {
+  transform: scaleX(-1);
 }
 
 
@@ -97,17 +139,18 @@ Bucket-1 (::after) */
   position: relative;
   background-image: url("../assets/tools/bucket/Bucket-1.png");
   height: 22%;
-  --bucket-color: #FFA500; /* variable tint color */
+  --bucket-color: #FFA500;
+  /* variable tint color */
 }
 
 #bucket::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: 
-      url("../assets/tools/bucket/Bucket-5.png") center/contain no-repeat,
-      url("../assets/tools/bucket/Bucket-4.png") center/contain no-repeat,
-      url("../assets/tools/bucket/Bucket-3.png") center/contain no-repeat;
+  background:
+    url("../assets/tools/bucket/Bucket-5.png") center/contain no-repeat,
+    url("../assets/tools/bucket/Bucket-4.png") center/contain no-repeat,
+    url("../assets/tools/bucket/Bucket-3.png") center/contain no-repeat;
 }
 
 #bucket::before {
@@ -132,7 +175,8 @@ Bucket-1 (::after) */
 
 #crayon {
   position: relative;
-    --crayon-color: #9000D3; /* variable tint color */
+  --crayon-color: #9000D3;
+  /* variable tint color */
 
   background: var(--crayon-color);
 
@@ -144,10 +188,10 @@ Bucket-1 (::after) */
   content: "";
   position: absolute;
   inset: 0;
-  background: 
-              url("../assets/tools/crayon/Crayon-2.png") center / contain no-repeat,
-              url("../assets/tools/crayon/Crayon-3.png") center/contain no-repeat,
-              url("../assets/tools/crayon/Crayon-4.png") center/contain no-repeat;
+  background:
+    url("../assets/tools/crayon/Crayon-2.png") center / contain no-repeat,
+    url("../assets/tools/crayon/Crayon-3.png") center/contain no-repeat,
+    url("../assets/tools/crayon/Crayon-4.png") center/contain no-repeat;
 }
 
 
@@ -160,10 +204,11 @@ Bucket-1 (::after) */
 
 #marker {
   position: relative;
-  --marker-color: #DA4527; /* variable tint color */
+  --marker-color: #DA4527;
+  /* variable tint color */
 
-  background: 
-  url("../assets/tools/sketchpen/Roller-1.png") center / contain no-repeat;
+  background:
+    url("../assets/tools/sketchpen/Roller-1.png") center / contain no-repeat;
 
 }
 
@@ -172,8 +217,8 @@ Bucket-1 (::after) */
   position: absolute;
   inset: 0;
 
-  background: 
-  var(--marker-color);
+  background:
+    var(--marker-color);
 
   -webkit-mask:
     url("../assets/tools/sketchpen/Roller-2.png") center/contain no-repeat;
@@ -183,9 +228,9 @@ Bucket-1 (::after) */
   content: "";
   position: absolute;
   inset: 0;
-  background: 
-              url("../assets/tools/sketchpen/Roller-3.png") center / contain no-repeat,
-              url("../assets/tools/sketchpen/Roller-4.png") center/contain no-repeat;
+  background:
+    url("../assets/tools/sketchpen/Roller-3.png") center / contain no-repeat,
+    url("../assets/tools/sketchpen/Roller-4.png") center/contain no-repeat;
 }
 
 
@@ -198,8 +243,9 @@ Bucket-1 (::after) */
 #brush {
   position: relative;
   background: url("../assets/tools/brush/Brush-1.png") center/contain no-repeat;
-  
-  --brush-color: #FFFF00; /* variable tint color */
+
+  --brush-color: #FFFF00;
+  /* variable tint color */
 }
 
 #brush::before {
@@ -221,9 +267,9 @@ Bucket-1 (::after) */
   position: absolute;
   inset: 0;
 
-  background: 
-      url("../assets/tools/brush/Brush-3.png") center/contain no-repeat,
-      url("../assets/tools/brush/Brush-4.png") center/contain no-repeat;
+  background:
+    url("../assets/tools/brush/Brush-3.png") center/contain no-repeat,
+    url("../assets/tools/brush/Brush-4.png") center/contain no-repeat;
 }
 
 
@@ -237,8 +283,9 @@ Bucket-1 (::after) */
 #paint {
   position: relative;
   background: url("../assets/tools/brush2/Pencil-1.png") center/contain no-repeat;
-  
-  --paint-color: #00FF00; /* variable tint color */
+
+  --paint-color: #00FF00;
+  /* variable tint color */
 }
 
 #paint::before {
@@ -260,7 +307,7 @@ Bucket-1 (::after) */
   position: absolute;
   inset: 0;
 
-  background: 
+  background:
     url("../assets/tools/brush2/Pencil-3.png") center/contain no-repeat,
     url("../assets/tools/brush2/Pencil-4.png") center/contain no-repeat,
     url("../assets/tools/brush2/Pencil-5.png") center/contain no-repeat;
@@ -273,13 +320,13 @@ Bucket-1 (::after) */
 
 #paint.locked::after {
   /* Override the highlight and show an emoji instead */
-  content: "🔒"; 
+  content: "🔒";
   /* background: url(../assets/buttons/Lock\ Icon.png) center/contain no-repeat; */
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 2rem;
-  text-shadow: 0 2px 5px rgba(0,0,0,0.5);
+  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
 }
 
 
@@ -298,8 +345,9 @@ Bucket-1 (::after) */
   position: relative;
   background: url("../assets/tools/spraycan/Spray-Can-2.png") center/contain no-repeat;
 
-  --spray-color: #3BC8FF; /* variable tint color */
-} 
+  --spray-color: #3BC8FF;
+  /* variable tint color */
+}
 
 #spray::before {
   content: "";
@@ -317,10 +365,10 @@ Bucket-1 (::after) */
   position: absolute;
   inset: 0;
   background: url("../assets/tools/spraycan/Spray-Can-1.png") center/contain no-repeat,
-              url("../assets/tools/spraycan/Spray-Can-3.png") center/contain no-repeat,
-              url("../assets/tools/spraycan/Spray-Can-4.png") center/contain no-repeat,
-              url("../assets/tools/spraycan/Spray-Can-5.png") center/contain no-repeat;
-} 
+    url("../assets/tools/spraycan/Spray-Can-3.png") center/contain no-repeat,
+    url("../assets/tools/spraycan/Spray-Can-4.png") center/contain no-repeat,
+    url("../assets/tools/spraycan/Spray-Can-5.png") center/contain no-repeat;
+}
 
 #spray.locked {
   filter: grayscale(0) opacity(1) brightness(60%);
@@ -329,13 +377,13 @@ Bucket-1 (::after) */
 
 #spray.locked::after {
   /* Override the highlight and show an emoji instead */
-  content: "🔒"; 
+  content: "🔒";
   /* background: url(../assets/buttons/Lock\ Icon.png) center/contain no-repeat; */
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 2rem;
-  text-shadow: 0 2px 5px rgba(0,0,0,0.5);
+  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
 }
 
 
@@ -352,7 +400,8 @@ Bucket-1 (::after) */
 
 #glitter {
   position: relative;
-  --glitter-color: #008080; /* variable tint color */
+  --glitter-color: #008080;
+  /* variable tint color */
 }
 
 
@@ -378,11 +427,11 @@ Bucket-1 (::after) */
   position: absolute;
   inset: 0;
 
-  background: 
-      url("../assets/tools/glitterpen/Glitter-Pen-2.png") center/contain no-repeat,
-      url("../assets/tools/glitterpen/Glitter-Pen-3.png") center/contain no-repeat,
-      url("../assets/tools/glitterpen/Glitter-Pen-4.png") center/contain no-repeat,
-      url("../assets/tools/glitterpen/Glitter-Pen-5.png") center/contain no-repeat;
+  background:
+    url("../assets/tools/glitterpen/Glitter-Pen-2.png") center/contain no-repeat,
+    url("../assets/tools/glitterpen/Glitter-Pen-3.png") center/contain no-repeat,
+    url("../assets/tools/glitterpen/Glitter-Pen-4.png") center/contain no-repeat,
+    url("../assets/tools/glitterpen/Glitter-Pen-5.png") center/contain no-repeat;
 
   pointer-events: none;
 }
@@ -394,13 +443,13 @@ Bucket-1 (::after) */
 
 #glitter.locked::after {
   /* Override the highlight and show an emoji instead */
-  content: "🔒"; 
+  content: "🔒";
   /* background: url(../assets/buttons/Lock\ Icon.png) center/contain no-repeat; */
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 2rem;
-  text-shadow: 0 2px 5px rgba(0,0,0,0.5);
+  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
 }
 
 
@@ -414,8 +463,8 @@ Bucket-1 (::after) */
   position: absolute;
   inset: 0;
 
-  background: 
-      url("../assets/tools/Rainbow-Glitter-Pen_tool.png") center/contain no-repeat;
+  background:
+    url("../assets/tools/Rainbow-Glitter-Pen_tool.png") center/contain no-repeat;
 
   pointer-events: none;
 }
@@ -427,13 +476,13 @@ Bucket-1 (::after) */
 
 #rainbow_glitter.locked::after {
   /* Override the highlight and show an emoji instead */
-  content: "🔒"; 
+  content: "🔒";
   /* background: url(../assets/buttons/Lock\ Icon.png) center/contain no-repeat; */
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 2rem;
-  text-shadow: 0 2px 5px rgba(0,0,0,0.5);
+  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
 }
 
 
@@ -459,18 +508,18 @@ Bucket-1 (::after) */
 
 #texture.locked::after {
   /* Override the highlight and show an emoji instead */
-  content: "🔒"; 
+  content: "🔒";
   /* background: url(../assets/buttons/Lock\ Icon.png) center/contain no-repeat; */
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 2rem;
-  text-shadow: 0 2px 5px rgba(0,0,0,0.5);
+  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
 }
 
 
 
-#sticker{
+#sticker {
   background-image: url("../assets/tools/Sticker_tool.png");
 }
 
@@ -481,13 +530,13 @@ Bucket-1 (::after) */
 
 #sticker.locked::after {
   /* Override the highlight and show an emoji instead */
-  content: "🔒"; 
+  content: "🔒";
   /* background: url(../assets/buttons/Lock\ Icon.png) center/contain no-repeat; */
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 2rem;
-  text-shadow: 0 2px 5px rgba(0,0,0,0.5);
+  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
 }
 
 
@@ -498,8 +547,8 @@ Bucket-1 (::after) */
   position: absolute;
   inset: 0;
 
-  background: 
-      url("../assets/tools/Soap\ Bubble\ Tool.png") center/contain no-repeat;
+  background:
+    url("../assets/tools/Soap\ Bubble\ Tool.png") center/contain no-repeat;
 
   pointer-events: none;
 }
@@ -511,29 +560,29 @@ Bucket-1 (::after) */
 
 #soap_bubble.locked::after {
   /* Override the highlight and show an emoji instead */
-  content: "🔒"; 
+  content: "🔒";
   /* background: url(../assets/buttons/Lock\ Icon.png) center/contain no-repeat; */
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 2rem;
-  text-shadow: 0 2px 5px rgba(0,0,0,0.5);
+  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
 }
 
 
 
 
 
-#eraser{
+#eraser {
   background-image: url("../assets/tools/Eraser_tool.png");
 }
 
-#delete{
+#delete {
   background-image: url("../assets/buttons/bin.png");
 }
 
-#home{
-  background-image: url("../assets/buttons/home.png") ;
+#home {
+  background-image: url("../assets/buttons/home.png");
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
@@ -543,15 +592,15 @@ Bucket-1 (::after) */
   cursor: pointer;
 
   top: 3dvh;
-  right: 1.5dvw;
+  left: 1.5dvw;
   width: 9vmin;
   height: 9vmin;
   z-index: 5;
 }
 
 
-#bin{
-  background-image: url("../assets/buttons/bin.png") ;
+#bin {
+  background-image: url("../assets/buttons/bin.png");
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
@@ -561,7 +610,7 @@ Bucket-1 (::after) */
   cursor: pointer;
 
   bottom: 4dvh;
-  right: 1.6dvw;
+  left: 1.6dvw;
   width: 9vmin;
   height: 9vmin;
   z-index: 5;
@@ -571,7 +620,7 @@ Bucket-1 (::after) */
 #size {
   position: fixed;
   top: 17dvh;
-  right: 2dvw;
+  left: 2dvw;
   z-index: 5;
 
   width: 7vmin;
@@ -579,7 +628,8 @@ Bucket-1 (::after) */
 
   background-color: transparent;
   border: 2px solid rgb(94, 94, 94);
-  border-radius: 6px; /* optional: slightly rounded box */
+  border-radius: 6px;
+  /* optional: slightly rounded box */
   cursor: pointer;
 
   display: flex;
@@ -624,14 +674,15 @@ Bucket-1 (::after) */
 
 .colors {
   position: fixed;
-  width: 6dvw;          /* color strip width */
+  width: 6.6dvw;
+  /* color strip width */
   height: 100dvh;
 
-  left: 12dvw;
+  right: 12dvw;
 
   display: flex;
   flex-direction: column;
-  gap: 2dvh;
+  gap: 2.3dvh;
 
   align-items: center;
   box-sizing: border-box;
@@ -639,52 +690,101 @@ Bucket-1 (::after) */
   padding-top: 2dvh;
   padding-bottom: 2dvh;
 
-  overflow-y: auto;     /* 🔑 scrollable */
+  overflow-y: auto;
+  /* 🔑 scrollable */
   overflow-x: hidden;
 
-  background: rgba(151, 250, 255, 0.322);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.45) 0%, rgba(215, 245, 255, 0.35) 100%);
   z-index: 10;
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(14px) saturate(180%);
+  -webkit-backdrop-filter: blur(14px) saturate(180%);
+  box-shadow: -4px 0 20px rgba(0, 60, 110, 0.06), inset 1px 0 0 rgba(255, 255, 255, 0.6);
 }
 
 .colors::-webkit-scrollbar {
   width: 0px;
 }
+
 .colors::-webkit-scrollbar-thumb {
-  background: rgba(0,0,0,0.3);
+  background: rgba(0, 0, 0, 0.3);
   border-radius: 10px;
 }
 
 .color-button {
+  position: relative;
   width: 5dvw;
   height: 5dvw;
-  border-radius: 35%;
-  border: none;
-  flex-shrink: 0; /* prevents shrinking */
-  outline: 0.3dvh solid #ffffff;
-  
+  border-radius: 50% 50% 50% 40%;
+  border: 0.45dvh solid #ffffff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25), inset 0 -3px 6px rgba(0, 0, 0, 0.3);
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.25s ease, border-color 0.25s ease;
 }
 
+/* Glossy highlight reflection on color button */
+.color-button::before {
+  content: "";
+  position: absolute;
+  top: 10%;
+  left: 18%;
+  width: 38%;
+  height: 26%;
+  background: rgba(255, 255, 255, 0.65);
+  border-radius: 50%;
+  pointer-events: none;
+  transform: rotate(-20deg);
+}
 
+/* Hover effect */
+.color-button:hover {
+  transform: scale(1.15) translateY(-2px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.35), inset 0 -3px 6px rgba(0, 0, 0, 0.3);
+  z-index: 5;
+}
+
+/* Active selected color state */
 .color-button.active {
-  outline: none;
-  box-shadow: 
-    0 0 0.1dvh 0.4dvh #FFFF00, 
-    0 0 1.5dvh 0.3dvh rgba(255, 255, 0, 0.7),
-    inset 0 0 1dvh 0.1dvh rgba(255, 255, 0, 0.5);
+  transform: scale(1.18);
+  border-color: #ffffff;
+  box-shadow:
+    0 0 0 0.4dvh #FFFF00,
+    0 0 1.8dvh 0.5dvh rgba(255, 255, 0, 0.85),
+    inset 0 2px 4px rgba(255, 255, 255, 0.7),
+    inset 0 -3px 6px rgba(0, 0, 0, 0.4);
+  z-index: 6;
+  animation: colorPulse 2s infinite ease-in-out;
+}
+
+@keyframes colorPulse {
+  0%, 100% {
+    box-shadow:
+      0 0 0 0.4dvh #FFFF00,
+      0 0 1.8dvh 0.5dvh rgba(255, 255, 0, 0.85),
+      inset 0 2px 4px rgba(255, 255, 255, 0.7),
+      inset 0 -3px 6px rgba(0, 0, 0, 0.4);
+  }
+  50% {
+    box-shadow:
+      0 0 0 0.5dvh #FFFF00,
+      0 0 2.4dvh 0.8dvh rgba(255, 255, 0, 1),
+      inset 0 2px 4px rgba(255, 255, 255, 0.7),
+      inset 0 -3px 6px rgba(0, 0, 0, 0.4);
+  }
 }
 
 
 .stickers {
   position: fixed;
-  width: 6dvw;          /* color strip width */
+  width: 6.6dvw;
+  /* color strip width */
   height: 100dvh;
 
-  left: 12dvw;
+  right: 12dvw;
 
   display: flex;
   flex-direction: column;
-  gap: 2dvh;
+  gap: 2.3dvh;
 
   align-items: center;
   box-sizing: border-box;
@@ -692,19 +792,23 @@ Bucket-1 (::after) */
   padding-top: 2dvh;
   padding-bottom: 2dvh;
 
-  overflow-y: auto;     /* 🔑 scrollable */
+  overflow-y: auto;
+  /* 🔑 scrollable */
   overflow-x: hidden;
 
-  background: rgba(151, 250, 255, 0.322);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.45) 0%, rgba(215, 245, 255, 0.35) 100%);
   z-index: 10;
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(14px) saturate(180%);
+  -webkit-backdrop-filter: blur(14px) saturate(180%);
+  box-shadow: -4px 0 20px rgba(0, 60, 110, 0.06), inset 1px 0 0 rgba(255, 255, 255, 0.6);
 }
 
 .stickers::-webkit-scrollbar {
   width: 0px;
 }
+
 .stickers::-webkit-scrollbar-thumb {
-  background: rgba(0,0,0,0.3);
+  background: rgba(0, 0, 0, 0.3);
   border-radius: 10px;
 }
 
@@ -713,103 +817,344 @@ Bucket-1 (::after) */
   height: 5dvw;
   border-radius: 35%;
   border: none;
-  flex-shrink: 0; /* prevents shrinking */
+  flex-shrink: 0;
+  /* prevents shrinking */
   outline-offset: 0.3dvh;
   outline: 0.3dvh solid #ffffff;
 }
 
 /* active outline */
 .sticker-button.active {
-  outline: 0.6dvh solid #000;   /* change color if needed */
-  outline-offset: 0.3dvh;       /* keeps outline outside the circle */
+  outline: 0.6dvh solid #000;
+  /* change color if needed */
+  outline-offset: 0.3dvh;
+  /* keeps outline outside the circle */
 }
 
 
-#sticker0        { background: url("../assets/stickers/love/Love_Stickers_01.png") center/contain no-repeat; }
-#sticker1        { background: url("../assets/stickers/love/Love_Stickers_02.png") center/contain no-repeat; }
-#sticker2        { background: url("../assets/stickers/love/Love_Stickers_03.png") center/contain no-repeat; }
-#sticker3        { background: url("../assets/stickers/love/Love_Stickers_04.png") center/contain no-repeat; }
-#sticker4        { background: url("../assets/stickers/love/Love_Stickers_05.png") center/contain no-repeat; }
-#sticker5        { background: url("../assets/stickers/love/Love_Stickers_06.png") center/contain no-repeat; }
-#sticker6        { background: url("../assets/stickers/love/Love_Stickers_07.png") center/contain no-repeat; }
-#sticker7        { background: url("../assets/stickers/love/Love_Stickers_08.png") center/contain no-repeat; }
-#sticker8        { background: url("../assets/stickers/love/Love_Stickers_09.png") center/contain no-repeat; }
-#sticker9        { background: url("../assets/stickers/love/Love_Stickers_10.png") center/contain no-repeat; }
-#sticker10       { background: url("../assets/stickers/love/Love_Stickers_11.png") center/contain no-repeat; }
-#sticker11       { background: url("../assets/stickers/love/Love_Stickers_12.png") center/contain no-repeat; }
-#sticker12       { background: url("../assets/stickers/love/Love_Stickers_13.png") center/contain no-repeat; }
-#sticker13       { background: url("../assets/stickers/love/Love_Stickers_14.png") center/contain no-repeat; }
-#sticker14       { background: url("../assets/stickers/love/Love_Stickers_15.png") center/contain no-repeat; }
-#sticker15       { background: url("../assets/stickers/love/Love_Stickers_16.png") center/contain no-repeat; }
-#sticker16       { background: url("../assets/stickers/love/Love_Stickers_17.png") center/contain no-repeat; }
-#sticker17       { background: url("../assets/stickers/love/Love_Stickers_18.png") center/contain no-repeat; }
-#sticker18       { background: url("../assets/stickers/love/Love_Stickers_19.png") center/contain no-repeat; }
-#sticker19       { background: url("../assets/stickers/love/Love_Stickers_20.png") center/contain no-repeat; }
-#sticker20       { background: url("../assets/stickers/love/Love_Stickers_21.png") center/contain no-repeat; }
-#sticker21       { background: url("../assets/stickers/love/Love_Stickers_22.png") center/contain no-repeat; }
-#sticker22       { background: url("../assets/stickers/love/Love_Stickers_23.png") center/contain no-repeat; }
-#sticker23       { background: url("../assets/stickers/love/Love_Stickers_24.png") center/contain no-repeat; }
+#sticker0 {
+  background: url("../assets/stickers/love/Love_Stickers_01.png") center/contain no-repeat;
+}
 
-#sticker24       { background: url("../assets/stickers/random/Random-Stickers_00.png") center/contain no-repeat; }
-#sticker25       { background: url("../assets/stickers/random/Random-Stickers_01.png") center/contain no-repeat; }
-#sticker26       { background: url("../assets/stickers/random/Random-Stickers_02.png") center/contain no-repeat; }
-#sticker27       { background: url("../assets/stickers/random/Random-Stickers_03.png") center/contain no-repeat; }
-#sticker28       { background: url("../assets/stickers/random/Random-Stickers_04.png") center/contain no-repeat; }
-#sticker29       { background: url("../assets/stickers/random/Random-Stickers_05.png") center/contain no-repeat; }
-#sticker30       { background: url("../assets/stickers/random/Random-Stickers_06.png") center/contain no-repeat; }
-#sticker31       { background: url("../assets/stickers/random/Random-Stickers_07.png") center/contain no-repeat; }
-#sticker32       { background: url("../assets/stickers/random/Random-Stickers_08.png") center/contain no-repeat; }
-#sticker33       { background: url("../assets/stickers/random/Random-Stickers_09.png") center/contain no-repeat; }
-#sticker34       { background: url("../assets/stickers/random/Random-Stickers_10.png") center/contain no-repeat; }
-#sticker35       { background: url("../assets/stickers/random/Random-Stickers_11.png") center/contain no-repeat; }
-#sticker36       { background: url("../assets/stickers/random/Random-Stickers_12.png") center/contain no-repeat; }
-#sticker37       { background: url("../assets/stickers/random/Random-Stickers_13.png") center/contain no-repeat; }
-#sticker38       { background: url("../assets/stickers/random/Random-Stickers_14.png") center/contain no-repeat; }
-#sticker39       { background: url("../assets/stickers/random/Random-Stickers_15.png") center/contain no-repeat; }
-#sticker40       { background: url("../assets/stickers/random/Random-Stickers_16.png") center/contain no-repeat; }
-#sticker41       { background: url("../assets/stickers/random/Random-Stickers_17.png") center/contain no-repeat; }
+#sticker1 {
+  background: url("../assets/stickers/love/Love_Stickers_02.png") center/contain no-repeat;
+}
 
-#sticker42       { background: url("../assets/stickers/ocean/Ocean_Stickers_00.png") center/contain no-repeat; }
-#sticker43       { background: url("../assets/stickers/ocean/Ocean_Stickers_01.png") center/contain no-repeat; }
-#sticker44       { background: url("../assets/stickers/ocean/Ocean_Stickers_02.png") center/contain no-repeat; }
-#sticker45       { background: url("../assets/stickers/ocean/Ocean_Stickers_03.png") center/contain no-repeat; }
-#sticker46       { background: url("../assets/stickers/ocean/Ocean_Stickers_04.png") center/contain no-repeat; }
-#sticker47       { background: url("../assets/stickers/ocean/Ocean_Stickers_05.png") center/contain no-repeat; }
-#sticker48       { background: url("../assets/stickers/ocean/Ocean_Stickers_06.png") center/contain no-repeat; }
-#sticker49       { background: url("../assets/stickers/ocean/Ocean_Stickers_07.png") center/contain no-repeat; }
-#sticker50       { background: url("../assets/stickers/ocean/Ocean_Stickers_08.png") center/contain no-repeat; }
+#sticker2 {
+  background: url("../assets/stickers/love/Love_Stickers_03.png") center/contain no-repeat;
+}
 
-#sticker51       { background: url("../assets/stickers/halloween/Halloween_Stickers_00.png") center/contain no-repeat; }
-#sticker52       { background: url("../assets/stickers/halloween/Halloween_Stickers_01.png") center/contain no-repeat; }
-#sticker53       { background: url("../assets/stickers/halloween/Halloween_Stickers_02.png") center/contain no-repeat; }
-#sticker54       { background: url("../assets/stickers/halloween/Halloween_Stickers_03.png") center/contain no-repeat; }
-#sticker55       { background: url("../assets/stickers/halloween/Halloween_Stickers_04.png") center/contain no-repeat; }
-#sticker56       { background: url("../assets/stickers/halloween/Halloween_Stickers_05.png") center/contain no-repeat; }
-#sticker57       { background: url("../assets/stickers/halloween/Halloween_Stickers_06.png") center/contain no-repeat; }
-#sticker58       { background: url("../assets/stickers/halloween/Halloween_Stickers_07.png") center/contain no-repeat; }
-#sticker59       { background: url("../assets/stickers/halloween/Halloween_Stickers_08.png") center/contain no-repeat; }
-#sticker60       { background: url("../assets/stickers/halloween/Halloween_Stickers_09.png") center/contain no-repeat; }
-#sticker61       { background: url("../assets/stickers/halloween/Halloween_Stickers_10.png") center/contain no-repeat; }
+#sticker3 {
+  background: url("../assets/stickers/love/Love_Stickers_04.png") center/contain no-repeat;
+}
 
-#sticker62       { background: url("../assets/stickers/christmas/Christmas_Stickers_00.png") center/contain no-repeat; }
-#sticker63       { background: url("../assets/stickers/christmas/Christmas_Stickers_01.png") center/contain no-repeat; }
-#sticker64       { background: url("../assets/stickers/christmas/Christmas_Stickers_02.png") center/contain no-repeat; }
-#sticker65       { background: url("../assets/stickers/christmas/Christmas_Stickers_03.png") center/contain no-repeat; }
-#sticker66       { background: url("../assets/stickers/christmas/Christmas_Stickers_04.png") center/contain no-repeat; }
-#sticker67       { background: url("../assets/stickers/christmas/Christmas_Stickers_05.png") center/contain no-repeat; }
-#sticker68       { background: url("../assets/stickers/christmas/Christmas_Stickers_06.png") center/contain no-repeat; }
-#sticker69       { background: url("../assets/stickers/christmas/Christmas_Stickers_07.png") center/contain no-repeat; }
-#sticker70       { background: url("../assets/stickers/christmas/Christmas_Stickers_08.png") center/contain no-repeat; }
-#sticker71       { background: url("../assets/stickers/christmas/Christmas_Stickers_09.png") center/contain no-repeat; }
-#sticker72       { background: url("../assets/stickers/christmas/Christmas_Stickers_10.png") center/contain no-repeat; }
-#sticker73       { background: url("../assets/stickers/christmas/Christmas_Stickers_11.png") center/contain no-repeat; }
-#sticker74       { background: url("../assets/stickers/christmas/Christmas_Stickers_12.png") center/contain no-repeat; }
-#sticker75       { background: url("../assets/stickers/christmas/Christmas_Stickers_13.png") center/contain no-repeat; }
-#sticker76       { background: url("../assets/stickers/christmas/Christmas_Stickers_14.png") center/contain no-repeat; }
-#sticker77       { background: url("../assets/stickers/christmas/Christmas_Stickers_15.png") center/contain no-repeat; }
-#sticker78       { background: url("../assets/stickers/christmas/Christmas_Stickers_16.png") center/contain no-repeat; }
-#sticker79       { background: url("../assets/stickers/christmas/Christmas_Stickers_17.png") center/contain no-repeat; }
-#sticker80       { background: url("../assets/stickers/christmas/Christmas_Stickers_18.png") center/contain no-repeat; }
+#sticker4 {
+  background: url("../assets/stickers/love/Love_Stickers_05.png") center/contain no-repeat;
+}
+
+#sticker5 {
+  background: url("../assets/stickers/love/Love_Stickers_06.png") center/contain no-repeat;
+}
+
+#sticker6 {
+  background: url("../assets/stickers/love/Love_Stickers_07.png") center/contain no-repeat;
+}
+
+#sticker7 {
+  background: url("../assets/stickers/love/Love_Stickers_08.png") center/contain no-repeat;
+}
+
+#sticker8 {
+  background: url("../assets/stickers/love/Love_Stickers_09.png") center/contain no-repeat;
+}
+
+#sticker9 {
+  background: url("../assets/stickers/love/Love_Stickers_10.png") center/contain no-repeat;
+}
+
+#sticker10 {
+  background: url("../assets/stickers/love/Love_Stickers_11.png") center/contain no-repeat;
+}
+
+#sticker11 {
+  background: url("../assets/stickers/love/Love_Stickers_12.png") center/contain no-repeat;
+}
+
+#sticker12 {
+  background: url("../assets/stickers/love/Love_Stickers_13.png") center/contain no-repeat;
+}
+
+#sticker13 {
+  background: url("../assets/stickers/love/Love_Stickers_14.png") center/contain no-repeat;
+}
+
+#sticker14 {
+  background: url("../assets/stickers/love/Love_Stickers_15.png") center/contain no-repeat;
+}
+
+#sticker15 {
+  background: url("../assets/stickers/love/Love_Stickers_16.png") center/contain no-repeat;
+}
+
+#sticker16 {
+  background: url("../assets/stickers/love/Love_Stickers_17.png") center/contain no-repeat;
+}
+
+#sticker17 {
+  background: url("../assets/stickers/love/Love_Stickers_18.png") center/contain no-repeat;
+}
+
+#sticker18 {
+  background: url("../assets/stickers/love/Love_Stickers_19.png") center/contain no-repeat;
+}
+
+#sticker19 {
+  background: url("../assets/stickers/love/Love_Stickers_20.png") center/contain no-repeat;
+}
+
+#sticker20 {
+  background: url("../assets/stickers/love/Love_Stickers_21.png") center/contain no-repeat;
+}
+
+#sticker21 {
+  background: url("../assets/stickers/love/Love_Stickers_22.png") center/contain no-repeat;
+}
+
+#sticker22 {
+  background: url("../assets/stickers/love/Love_Stickers_23.png") center/contain no-repeat;
+}
+
+#sticker23 {
+  background: url("../assets/stickers/love/Love_Stickers_24.png") center/contain no-repeat;
+}
+
+#sticker24 {
+  background: url("../assets/stickers/random/Random-Stickers_00.png") center/contain no-repeat;
+}
+
+#sticker25 {
+  background: url("../assets/stickers/random/Random-Stickers_01.png") center/contain no-repeat;
+}
+
+#sticker26 {
+  background: url("../assets/stickers/random/Random-Stickers_02.png") center/contain no-repeat;
+}
+
+#sticker27 {
+  background: url("../assets/stickers/random/Random-Stickers_03.png") center/contain no-repeat;
+}
+
+#sticker28 {
+  background: url("../assets/stickers/random/Random-Stickers_04.png") center/contain no-repeat;
+}
+
+#sticker29 {
+  background: url("../assets/stickers/random/Random-Stickers_05.png") center/contain no-repeat;
+}
+
+#sticker30 {
+  background: url("../assets/stickers/random/Random-Stickers_06.png") center/contain no-repeat;
+}
+
+#sticker31 {
+  background: url("../assets/stickers/random/Random-Stickers_07.png") center/contain no-repeat;
+}
+
+#sticker32 {
+  background: url("../assets/stickers/random/Random-Stickers_08.png") center/contain no-repeat;
+}
+
+#sticker33 {
+  background: url("../assets/stickers/random/Random-Stickers_09.png") center/contain no-repeat;
+}
+
+#sticker34 {
+  background: url("../assets/stickers/random/Random-Stickers_10.png") center/contain no-repeat;
+}
+
+#sticker35 {
+  background: url("../assets/stickers/random/Random-Stickers_11.png") center/contain no-repeat;
+}
+
+#sticker36 {
+  background: url("../assets/stickers/random/Random-Stickers_12.png") center/contain no-repeat;
+}
+
+#sticker37 {
+  background: url("../assets/stickers/random/Random-Stickers_13.png") center/contain no-repeat;
+}
+
+#sticker38 {
+  background: url("../assets/stickers/random/Random-Stickers_14.png") center/contain no-repeat;
+}
+
+#sticker39 {
+  background: url("../assets/stickers/random/Random-Stickers_15.png") center/contain no-repeat;
+}
+
+#sticker40 {
+  background: url("../assets/stickers/random/Random-Stickers_16.png") center/contain no-repeat;
+}
+
+#sticker41 {
+  background: url("../assets/stickers/random/Random-Stickers_17.png") center/contain no-repeat;
+}
+
+#sticker42 {
+  background: url("../assets/stickers/ocean/Ocean_Stickers_00.png") center/contain no-repeat;
+}
+
+#sticker43 {
+  background: url("../assets/stickers/ocean/Ocean_Stickers_01.png") center/contain no-repeat;
+}
+
+#sticker44 {
+  background: url("../assets/stickers/ocean/Ocean_Stickers_02.png") center/contain no-repeat;
+}
+
+#sticker45 {
+  background: url("../assets/stickers/ocean/Ocean_Stickers_03.png") center/contain no-repeat;
+}
+
+#sticker46 {
+  background: url("../assets/stickers/ocean/Ocean_Stickers_04.png") center/contain no-repeat;
+}
+
+#sticker47 {
+  background: url("../assets/stickers/ocean/Ocean_Stickers_05.png") center/contain no-repeat;
+}
+
+#sticker48 {
+  background: url("../assets/stickers/ocean/Ocean_Stickers_06.png") center/contain no-repeat;
+}
+
+#sticker49 {
+  background: url("../assets/stickers/ocean/Ocean_Stickers_07.png") center/contain no-repeat;
+}
+
+#sticker50 {
+  background: url("../assets/stickers/ocean/Ocean_Stickers_08.png") center/contain no-repeat;
+}
+
+#sticker51 {
+  background: url("../assets/stickers/halloween/Halloween_Stickers_00.png") center/contain no-repeat;
+}
+
+#sticker52 {
+  background: url("../assets/stickers/halloween/Halloween_Stickers_01.png") center/contain no-repeat;
+}
+
+#sticker53 {
+  background: url("../assets/stickers/halloween/Halloween_Stickers_02.png") center/contain no-repeat;
+}
+
+#sticker54 {
+  background: url("../assets/stickers/halloween/Halloween_Stickers_03.png") center/contain no-repeat;
+}
+
+#sticker55 {
+  background: url("../assets/stickers/halloween/Halloween_Stickers_04.png") center/contain no-repeat;
+}
+
+#sticker56 {
+  background: url("../assets/stickers/halloween/Halloween_Stickers_05.png") center/contain no-repeat;
+}
+
+#sticker57 {
+  background: url("../assets/stickers/halloween/Halloween_Stickers_06.png") center/contain no-repeat;
+}
+
+#sticker58 {
+  background: url("../assets/stickers/halloween/Halloween_Stickers_07.png") center/contain no-repeat;
+}
+
+#sticker59 {
+  background: url("../assets/stickers/halloween/Halloween_Stickers_08.png") center/contain no-repeat;
+}
+
+#sticker60 {
+  background: url("../assets/stickers/halloween/Halloween_Stickers_09.png") center/contain no-repeat;
+}
+
+#sticker61 {
+  background: url("../assets/stickers/halloween/Halloween_Stickers_10.png") center/contain no-repeat;
+}
+
+#sticker62 {
+  background: url("../assets/stickers/christmas/Christmas_Stickers_00.png") center/contain no-repeat;
+}
+
+#sticker63 {
+  background: url("../assets/stickers/christmas/Christmas_Stickers_01.png") center/contain no-repeat;
+}
+
+#sticker64 {
+  background: url("../assets/stickers/christmas/Christmas_Stickers_02.png") center/contain no-repeat;
+}
+
+#sticker65 {
+  background: url("../assets/stickers/christmas/Christmas_Stickers_03.png") center/contain no-repeat;
+}
+
+#sticker66 {
+  background: url("../assets/stickers/christmas/Christmas_Stickers_04.png") center/contain no-repeat;
+}
+
+#sticker67 {
+  background: url("../assets/stickers/christmas/Christmas_Stickers_05.png") center/contain no-repeat;
+}
+
+#sticker68 {
+  background: url("../assets/stickers/christmas/Christmas_Stickers_06.png") center/contain no-repeat;
+}
+
+#sticker69 {
+  background: url("../assets/stickers/christmas/Christmas_Stickers_07.png") center/contain no-repeat;
+}
+
+#sticker70 {
+  background: url("../assets/stickers/christmas/Christmas_Stickers_08.png") center/contain no-repeat;
+}
+
+#sticker71 {
+  background: url("../assets/stickers/christmas/Christmas_Stickers_09.png") center/contain no-repeat;
+}
+
+#sticker72 {
+  background: url("../assets/stickers/christmas/Christmas_Stickers_10.png") center/contain no-repeat;
+}
+
+#sticker73 {
+  background: url("../assets/stickers/christmas/Christmas_Stickers_11.png") center/contain no-repeat;
+}
+
+#sticker74 {
+  background: url("../assets/stickers/christmas/Christmas_Stickers_12.png") center/contain no-repeat;
+}
+
+#sticker75 {
+  background: url("../assets/stickers/christmas/Christmas_Stickers_13.png") center/contain no-repeat;
+}
+
+#sticker76 {
+  background: url("../assets/stickers/christmas/Christmas_Stickers_14.png") center/contain no-repeat;
+}
+
+#sticker77 {
+  background: url("../assets/stickers/christmas/Christmas_Stickers_15.png") center/contain no-repeat;
+}
+
+#sticker78 {
+  background: url("../assets/stickers/christmas/Christmas_Stickers_16.png") center/contain no-repeat;
+}
+
+#sticker79 {
+  background: url("../assets/stickers/christmas/Christmas_Stickers_17.png") center/contain no-repeat;
+}
+
+#sticker80 {
+  background: url("../assets/stickers/christmas/Christmas_Stickers_18.png") center/contain no-repeat;
+}
 
 
 
@@ -819,14 +1164,15 @@ Bucket-1 (::after) */
 
 .textures {
   position: fixed;
-  width: 6dvw;          /* color strip width */
+  width: 6.6dvw;
+  /* color strip width */
   height: 100dvh;
 
-  left: 12dvw;
+  right: 12dvw;
 
   display: flex;
   flex-direction: column;
-  gap: 2dvh;
+  gap: 2.3dvh;
 
   align-items: center;
   box-sizing: border-box;
@@ -834,37 +1180,67 @@ Bucket-1 (::after) */
   padding-top: 2dvh;
   padding-bottom: 2dvh;
 
-  overflow-y: auto;     /* 🔑 scrollable */
+  overflow-y: auto;
+  /* 🔑 scrollable */
   overflow-x: hidden;
 
-  background: rgba(151, 250, 255, 0.322);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.45) 0%, rgba(215, 245, 255, 0.35) 100%);
   z-index: 10;
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(14px) saturate(180%);
+  -webkit-backdrop-filter: blur(14px) saturate(180%);
+  box-shadow: -4px 0 20px rgba(0, 60, 110, 0.06), inset 1px 0 0 rgba(255, 255, 255, 0.6);
 }
 
 .textures::-webkit-scrollbar {
   width: 0px;
 }
+
 .textures::-webkit-scrollbar-thumb {
-  background: rgba(0,0,0,0.3);
+  background: rgba(0, 0, 0, 0.3);
   border-radius: 10px;
 }
 
 .texture-button {
+  position: relative;
   width: 5dvw;
   height: 5dvw;
-  border-radius: 10%;
-  border: none;
-  flex-shrink: 0; /* prevents shrinking */
-  outline-offset: 0.3dvh;
-  outline: 0.3dvh solid #ffffff;
-  
+  border-radius: 35%;
+  border: 0.45dvh solid #ffffff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+/* Hover effect */
+.texture-button:hover {
+  transform: scale(1.15) translateY(-2px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.35);
+  z-index: 5;
 }
 
 /* active outline */
 .texture-button.active {
-  outline: 0.6dvh solid #000;   /* change color if needed */
-  outline-offset: 0.3dvh;       /* keeps outline outside the circle */
+  transform: scale(1.18);
+  border-color: #ffffff;
+  box-shadow:
+    0 0 0 0.4dvh #FFFF00,
+    0 0 1.8dvh 0.5dvh rgba(255, 255, 0, 0.85);
+  z-index: 6;
+  animation: texturePulse 2s infinite ease-in-out;
+}
+
+@keyframes texturePulse {
+  0%, 100% {
+    box-shadow:
+      0 0 0 0.4dvh #FFFF00,
+      0 0 1.8dvh 0.5dvh rgba(255, 255, 0, 0.85);
+  }
+  50% {
+    box-shadow:
+      0 0 0 0.5dvh #FFFF00,
+      0 0 2.4dvh 0.8dvh rgba(255, 255, 0, 1);
+  }
 }
 
 
@@ -873,31 +1249,36 @@ Bucket-1 (::after) */
 
 
 #canvas-container {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    transform-origin: top left; /* CRITICAL FOR MATH */
-    touch-action: none; /* CRITICAL FOR MOBILE */
-    will-change: transform;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  transform-origin: top left;
+  /* CRITICAL FOR MATH */
+  touch-action: none;
+  /* CRITICAL FOR MOBILE */
+  will-change: transform;
 }
 
 .ui-layer {
-    position: absolute;
-    inset: 0;
-    z-index: 100;
-    pointer-events: none; /* Let clicks pass through empty space */
+  position: absolute;
+  inset: 0;
+  z-index: 100;
+  pointer-events: none;
+  /* Let clicks pass through empty space */
 }
 
 .ui-layer button {
-    pointer-events: auto; /* Make buttons clickable again */
+  pointer-events: auto;
+  /* Make buttons clickable again */
 }
 
 
 
 canvas {
-  touch-action: none; /* CRITICAL for mobile */
+  touch-action: none;
+  /* CRITICAL for mobile */
   position: absolute;
   inset: 0;
   top: 50%;
@@ -905,62 +1286,92 @@ canvas {
 }
 
 /* #baseCanvas { z-index: 1; background-image: url("/assets/book/pink_bg_book.png") ; background-repeat: no-repeat;} */
-#baseCanvas { z-index: 1; background-color: white; border-radius: 25px; }
-#liveCanvas { z-index: 2; border-radius: 25px; }
-#imageCanvas { z-index: 3; pointer-events: none; border-radius: 25px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);}
-#glitterCanvas{ z-index: 4; border-radius: 25px; pointer-events: none; }
+#baseCanvas {
+  z-index: 1;
+  background-color: white;
+  border-radius: 25px;
+}
+
+#liveCanvas {
+  z-index: 2;
+  border-radius: 25px;
+}
+
+#imageCanvas {
+  z-index: 3;
+  pointer-events: none;
+  border-radius: 25px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+#glitterCanvas {
+  z-index: 4;
+  border-radius: 25px;
+  pointer-events: none;
+}
 
 
 
 .parental-overlay {
-    position: fixed;
-    inset: 0; /* Cover full screen */
-    background: rgba(0, 0, 0, 0.336); /* Subtle white tint */
-    backdrop-filter: blur(3px);        /* Frosted glass blur */
-    -webkit-backdrop-filter: blur(15px); /* Safari support */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-    pointer-events: none;
+  position: fixed;
+  inset: 0;
+  /* Cover full screen */
+  background: rgba(0, 0, 0, 0.336);
+  /* Subtle white tint */
+  backdrop-filter: blur(3px);
+  /* Frosted glass blur */
+  -webkit-backdrop-filter: blur(15px);
+  /* Safari support */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  pointer-events: none;
 }
 
 .timer-wrapper {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .countdown-number {
-    position: absolute;
-    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    font-size: 100px;
-    font-weight: 700;
-    color: white;
-    text-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  position: absolute;
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  font-size: 100px;
+  font-weight: 700;
+  color: white;
+  text-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 .progress-ring__fill {
-    transition: stroke-dashoffset 0.1s linear;
-    transform: rotate(-90deg);
-    transform-origin: center;
-    /* Circumference = 2 * PI * R (2 * 3.14 * 80) ≈ 502 */
-    stroke-dasharray: 502;
-    stroke-dashoffset: 502;
+  transition: stroke-dashoffset 0.1s linear;
+  transform: rotate(-90deg);
+  transform-origin: center;
+  /* Circumference = 2 * PI * R (2 * 3.14 * 80) ≈ 502 */
+  stroke-dasharray: 502;
+  stroke-dashoffset: 502;
 }
 
-.parental-overlay, .countdown-number, .parental-button {
-    /* Prevents the user from selecting text inside the overlay */
-    -webkit-user-select: none;  /* Safari */
-    -ms-user-select: none;      /* IE 10 and 11 */
-    user-select: none;          /* Standard syntax */
-    
-    /* Prevents the blue "tap highlight" on mobile devices */
-    -webkit-tap-highlight-color: transparent;
-    
-    /* Crucial for mobile: stops the "Magnifying Glass" or copy-paste menu */
-    -webkit-touch-callout: none;
+.parental-overlay,
+.countdown-number,
+.parental-button {
+  /* Prevents the user from selecting text inside the overlay */
+  -webkit-user-select: none;
+  /* Safari */
+  -ms-user-select: none;
+  /* IE 10 and 11 */
+  user-select: none;
+  /* Standard syntax */
+
+  /* Prevents the blue "tap highlight" on mobile devices */
+  -webkit-tap-highlight-color: transparent;
+
+  /* Crucial for mobile: stops the "Magnifying Glass" or copy-paste menu */
+  -webkit-touch-callout: none;
 }
 
-.hidden { display: none !important; }
+.hidden {
+  display: none !important;
+}

@@ -19,7 +19,7 @@ export const toolState: Record<string, AppState> = {
   rainbow_glitter: { tool: 'rainbow_glitter', locked: false },
   spray: { tool: 'spray', color: '#3BC8FF', colorId: '3BC8FF', locked: false },
   texture: { tool: 'texture', textureId: 'texture0', locked: false },
-  sticker: { tool: 'sticker', stickerId: 'sticker0', locked: false },
+  sticker: { tool: 'sticker', stickerId: 'sticker80', locked: false },
   soap_bubble: { tool: 'soap_bubble', locked: false },
   eraser: { tool: 'eraser', locked: false },
 };

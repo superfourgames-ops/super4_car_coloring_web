@@ -14,6 +14,7 @@
 </head>
 <body>
   <div class="app">
+      <div class="bg-doodles" id="bg-doodles"></div>
       <div class="tools">
         <button class="tool-button" id="bucket"></button>
         <button class="tool-button" id="crayon"></button>
@@ -30,38 +31,63 @@
       </div>
 
       <div class="colors" id="colors">
-        <button class="color-button" id="8B0000" style="background:#8B0000"></button>
+        <!-- 🔴🟡🔵 PRIMARY COLORS FIRST -->
+        <button class="color-button" id="FF0000" style="background:#FF0000"></button>
+        <button class="color-button" id="FFFF00" style="background:#FFFF00"></button>
+        <button class="color-button" id="0000FF" style="background:#0000FF"></button>
+
+        <!-- Primary Shade Variations -->
+        <button class="color-button" id="DC143C" style="background:#DC143C"></button>
         <button class="color-button" id="C6121F" style="background:#C6121F"></button>
         <button class="color-button" id="DA4527" style="background:#DA4527"></button>
         <button class="color-button" id="BE3926" style="background:#BE3926"></button>
-        <button class="color-button" id="DC143C" style="background:#DC143C"></button>
-        <button class="color-button" id="FF0000" style="background:#FF0000"></button>
-        <button class="color-button" id="F41972" style="background:#F41972"></button>
-        <button class="color-button" id="FF69B4" style="background:#FF69B4"></button>
-        <button class="color-button" id="FFC0CB" style="background:#FFC0CB"></button>
-        <button class="color-button" id="FA8072" style="background:#FA8072"></button>
+        <button class="color-button" id="8B0000" style="background:#8B0000"></button>
+        <button class="color-button" id="FFD700" style="background:#FFD700"></button>
+        <button class="color-button" id="A39F21" style="background:#A39F21"></button>
+        <button class="color-button" id="4169E1" style="background:#4169E1"></button>
+        <button class="color-button" id="2045BC" style="background:#2045BC"></button>
+        <button class="color-button" id="1B35A5" style="background:#1B35A5"></button>
+        <button class="color-button" id="000080" style="background:#000080"></button>
 
-        <button class="color-button" id="FF00FF" style="background:#FF00FF"></button>
-        <button class="color-button" id="930F58" style="background:#930F58"></button>
+        <!-- 🟢🟠🟣 SECONDARY COLORS -->
+        <button class="color-button" id="00FF00" style="background:#00FF00"></button>
+        <button class="color-button" id="FFA500" style="background:#FFA500"></button>
         <button class="color-button" id="800080" style="background:#800080"></button>
+
+        <!-- Secondary Shade Variations -->
+        <button class="color-button" id="17C61A" style="background:#17C61A"></button>
+        <button class="color-button" id="228B22" style="background:#228B22"></button>
+        <button class="color-button" id="50C878" style="background:#50C878"></button>
+        <button class="color-button" id="77C117" style="background:#77C117"></button>
+        <button class="color-button" id="98FB98" style="background:#98FB98"></button>
+        <button class="color-button" id="115B26" style="background:#115B26"></button>
+        <button class="color-button" id="046656" style="background:#046656"></button>
+        <button class="color-button" id="06493C" style="background:#06493C"></button>
+
+        <button class="color-button" id="FF8C00" style="background:#FF8C00"></button>
+        <button class="color-button" id="EF6D22" style="background:#EF6D22"></button>
+        <button class="color-button" id="E85E00" style="background:#E85E00"></button>
+        <button class="color-button" id="FF7F50" style="background:#FF7F50"></button>
+        <button class="color-button" id="FBCEB1" style="background:#FBCEB1"></button>
+
         <button class="color-button" id="9000D3" style="background:#9000D3"></button>
         <button class="color-button" id="4B0082" style="background:#4B0082"></button>
-        <button class="color-button" id="5435A0" style="background:#5435A0"></button>
-        <button class="color-button" id="42288C" style="background:#42288C"></button>
-        <button class="color-button" id="8E4585" style="background:#8E4585"></button>
         <button class="color-button" id="9966CC" style="background:#9966CC"></button>
         <button class="color-button" id="CC76FF" style="background:#CC76FF"></button>
         <button class="color-button" id="EE82EE" style="background:#EE82EE"></button>
         <button class="color-button" id="E0B0FF" style="background:#E0B0FF"></button>
         <button class="color-button" id="C8A2C8" style="background:#C8A2C8"></button>
+        <button class="color-button" id="5435A0" style="background:#5435A0"></button>
+        <button class="color-button" id="42288C" style="background:#42288C"></button>
+        <button class="color-button" id="8E4585" style="background:#8E4585"></button>
+        <button class="color-button" id="930F58" style="background:#930F58"></button>
+        <button class="color-button" id="FF00FF" style="background:#FF00FF"></button>
+        <button class="color-button" id="F41972" style="background:#F41972"></button>
+        <button class="color-button" id="FF69B4" style="background:#FF69B4"></button>
+        <button class="color-button" id="FFC0CB" style="background:#FFC0CB"></button>
+        <button class="color-button" id="FA8072" style="background:#FA8072"></button>
 
-        <button class="color-button" id="000080" style="background:#000080"></button>
-        <button class="color-button" id="1B35A5" style="background:#1B35A5"></button>
-        <button class="color-button" id="0000FF" style="background:#0000FF"></button>
-        <button class="color-button" id="2045BC" style="background:#2045BC"></button>
-        <button class="color-button" id="4169E1" style="background:#4169E1"></button>
-        <button class="color-button" id="085BAF" style="background:#085BAF"></button>
-        <button class="color-button" id="117DCE" style="background:#117DCE"></button>
+        <!-- 🎨 OTHER COLORS & NEUTRALS -->
         <button class="color-button" id="3BC8FF" style="background:#3BC8FF"></button>
         <button class="color-button" id="87CEEB" style="background:#87CEEB"></button>
         <button class="color-button" id="00FFFF" style="background:#00FFFF"></button>
@@ -69,136 +95,121 @@
         <button class="color-button" id="00C4D3" style="background:#00C4D3"></button>
         <button class="color-button" id="009DA5" style="background:#009DA5"></button>
         <button class="color-button" id="008080" style="background:#008080"></button>
+        <button class="color-button" id="117DCE" style="background:#117DCE"></button>
+        <button class="color-button" id="085BAF" style="background:#085BAF"></button>
 
-        <button class="color-button" id="06493C" style="background:#06493C"></button>
-        <button class="color-button" id="046656" style="background:#046656"></button>
-        <button class="color-button" id="115B26" style="background:#115B26"></button>
-        <button class="color-button" id="228B22" style="background:#228B22"></button>
-        <button class="color-button" id="17C61A" style="background:#17C61A"></button>
-        <button class="color-button" id="00FF00" style="background:#00FF00"></button>
-        <button class="color-button" id="50C878" style="background:#50C878"></button>
-        <button class="color-button" id="77C117" style="background:#77C117"></button>
-        <button class="color-button" id="98FB98" style="background:#98FB98"></button>
-
-        <button class="color-button" id="A39F21" style="background:#A39F21"></button>
-        <button class="color-button" id="FFFF00" style="background:#FFFF00"></button>
-        <button class="color-button" id="FFD700" style="background:#FFD700"></button>
-        <button class="color-button" id="FFA500" style="background:#FFA500"></button>
-        <button class="color-button" id="FF8C00" style="background:#FF8C00"></button>
-        <button class="color-button" id="EF6D22" style="background:#EF6D22"></button>
-        <button class="color-button" id="E85E00" style="background:#E85E00"></button>
-        <button class="color-button" id="FF7F50" style="background:#FF7F50"></button>
-        <button class="color-button" id="FBCEB1" style="background:#FBCEB1"></button>
-
+        <button class="color-button" id="8B4513" style="background:#8B4513"></button>
+        <button class="color-button" id="8D5524" style="background:#8D5524"></button>
+        <button class="color-button" id="D2691E" style="background:#D2691E"></button>
+        <button class="color-button" id="C68642" style="background:#C68642"></button>
+        <button class="color-button" id="704214" style="background:#704214"></button>
         <button class="color-button" id="552200" style="background:#552200"></button>
         <button class="color-button" id="3D2314" style="background:#3D2314"></button>
-        <button class="color-button" id="704214" style="background:#704214"></button>
-        <button class="color-button" id="8B4513" style="background:#8B4513"></button>
         <button class="color-button" id="6D4D42" style="background:#6D4D42"></button>
-        <button class="color-button" id="8D5524" style="background:#8D5524"></button>
-        <button class="color-button" id="C68642" style="background:#C68642"></button>
-        <button class="color-button" id="D2691E" style="background:#D2691E"></button>
         <button class="color-button" id="D2B48C" style="background:#D2B48C"></button>
         <button class="color-button" id="C2B280" style="background:#C2B280"></button>
         <button class="color-button" id="F1C27D" style="background:#F1C27D"></button>
         <button class="color-button" id="FFFDD0" style="background:#FFFDD0"></button>
 
+        <button class="color-button" id="000000" style="background:#000000"></button>
         <button class="color-button" id="FFFFFF" style="background:#FFFFFF"></button>
+        <button class="color-button" id="808080" style="background:#808080"></button>
+        <button class="color-button" id="36454F" style="background:#36454F"></button>
+        <button class="color-button" id="708090" style="background:#708090"></button>
+        <button class="color-button" id="C0C0C0" style="background:#C0C0C0"></button>
         <button class="color-button" id="F5F5DC" style="background:#F5F5DC"></button>
         <button class="color-button" id="E6E6FA" style="background:#E6E6FA"></button>
-        <button class="color-button" id="C0C0C0" style="background:#C0C0C0"></button>
-        <button class="color-button" id="808080" style="background:#808080"></button>
-        <button class="color-button" id="708090" style="background:#708090"></button>
-        <button class="color-button" id="36454F" style="background:#36454F"></button>
-        <button class="color-button" id="000000" style="background:#000000"></button>
       </div>
 
       <div class="stickers" id="stickers">
-        <button class="sticker-button" id="sticker0"></button>
-        <button class="sticker-button" id="sticker1"></button>
-        <button class="sticker-button" id="sticker2"></button>
-        <button class="sticker-button" id="sticker3"></button>
-        <button class="sticker-button" id="sticker4"></button>
-        <button class="sticker-button" id="sticker5"></button>
-        <button class="sticker-button" id="sticker6"></button>
-        <button class="sticker-button" id="sticker7"></button>
-        <button class="sticker-button" id="sticker8"></button>
-        <button class="sticker-button" id="sticker9"></button>
-
-        <button class="sticker-button" id="sticker10"></button>
-        <button class="sticker-button" id="sticker11"></button>
-        <button class="sticker-button" id="sticker12"></button>
-        <button class="sticker-button" id="sticker13"></button>
-        <button class="sticker-button" id="sticker14"></button>
-        <button class="sticker-button" id="sticker15"></button>
-        <button class="sticker-button" id="sticker16"></button>
-        <button class="sticker-button" id="sticker17"></button>
-        <button class="sticker-button" id="sticker18"></button>
-        <button class="sticker-button" id="sticker19"></button>
-
-        <button class="sticker-button" id="sticker20"></button>
-        <button class="sticker-button" id="sticker21"></button>
-        <button class="sticker-button" id="sticker22"></button>
-        <button class="sticker-button" id="sticker23"></button>
-        <button class="sticker-button" id="sticker24"></button>
-        <button class="sticker-button" id="sticker25"></button>
-        <button class="sticker-button" id="sticker26"></button>
-        <button class="sticker-button" id="sticker27"></button>
-        <button class="sticker-button" id="sticker28"></button>
-        <button class="sticker-button" id="sticker29"></button>
-
-        <button class="sticker-button" id="sticker30"></button>
-        <button class="sticker-button" id="sticker31"></button>
-        <button class="sticker-button" id="sticker32"></button>
-        <button class="sticker-button" id="sticker33"></button>
-        <button class="sticker-button" id="sticker34"></button>
-        <button class="sticker-button" id="sticker35"></button>
-        <button class="sticker-button" id="sticker36"></button>
-        <button class="sticker-button" id="sticker37"></button>
-        <button class="sticker-button" id="sticker38"></button>
-        <button class="sticker-button" id="sticker39"></button>
-
-        <button class="sticker-button" id="sticker40"></button>
-        <button class="sticker-button" id="sticker41"></button>
-        <button class="sticker-button" id="sticker42"></button>
-        <button class="sticker-button" id="sticker43"></button>
-        <button class="sticker-button" id="sticker44"></button>
-        <button class="sticker-button" id="sticker45"></button>
-        <button class="sticker-button" id="sticker46"></button>
-        <button class="sticker-button" id="sticker47"></button>
-        <button class="sticker-button" id="sticker48"></button>
-        <button class="sticker-button" id="sticker49"></button>
-        <button class="sticker-button" id="sticker50"></button>
-        <button class="sticker-button" id="sticker51"></button>
-        <button class="sticker-button" id="sticker52"></button>
-        <button class="sticker-button" id="sticker53"></button>
-        <button class="sticker-button" id="sticker54"></button>
-        <button class="sticker-button" id="sticker55"></button>
-        <button class="sticker-button" id="sticker56"></button>
-        <button class="sticker-button" id="sticker57"></button>
-        <button class="sticker-button" id="sticker58"></button>
-        <button class="sticker-button" id="sticker59"></button>
-        <button class="sticker-button" id="sticker60"></button>
-        <button class="sticker-button" id="sticker61"></button>
-        <button class="sticker-button" id="sticker62"></button>
-        <button class="sticker-button" id="sticker63"></button>
-        <button class="sticker-button" id="sticker64"></button>
-        <button class="sticker-button" id="sticker65"></button>
-        <button class="sticker-button" id="sticker66"></button>
-        <button class="sticker-button" id="sticker67"></button>
-        <button class="sticker-button" id="sticker68"></button>
-        <button class="sticker-button" id="sticker69"></button>
-        <button class="sticker-button" id="sticker70"></button>
-        <button class="sticker-button" id="sticker71"></button>
-        <button class="sticker-button" id="sticker72"></button>
-        <button class="sticker-button" id="sticker73"></button>
-        <button class="sticker-button" id="sticker74"></button>
-        <button class="sticker-button" id="sticker75"></button>
-        <button class="sticker-button" id="sticker76"></button>
-        <button class="sticker-button" id="sticker77"></button>
-        <button class="sticker-button" id="sticker78"></button>
-        <button class="sticker-button" id="sticker79"></button>
         <button class="sticker-button" id="sticker80"></button>
+        <button class="sticker-button" id="sticker79"></button>
+        <button class="sticker-button" id="sticker78"></button>
+        <button class="sticker-button" id="sticker77"></button>
+        <button class="sticker-button" id="sticker76"></button>
+        <button class="sticker-button" id="sticker75"></button>
+        <button class="sticker-button" id="sticker74"></button>
+        <button class="sticker-button" id="sticker73"></button>
+        <button class="sticker-button" id="sticker72"></button>
+        <button class="sticker-button" id="sticker71"></button>
+        <button class="sticker-button" id="sticker70"></button>
+
+        <button class="sticker-button" id="sticker69"></button>
+        <button class="sticker-button" id="sticker68"></button>
+        <button class="sticker-button" id="sticker67"></button>
+        <button class="sticker-button" id="sticker66"></button>
+        <button class="sticker-button" id="sticker65"></button>
+        <button class="sticker-button" id="sticker64"></button>
+        <button class="sticker-button" id="sticker63"></button>
+        <button class="sticker-button" id="sticker62"></button>
+        <button class="sticker-button" id="sticker61"></button>
+        <button class="sticker-button" id="sticker60"></button>
+
+        <button class="sticker-button" id="sticker59"></button>
+        <button class="sticker-button" id="sticker58"></button>
+        <button class="sticker-button" id="sticker57"></button>
+        <button class="sticker-button" id="sticker56"></button>
+        <button class="sticker-button" id="sticker55"></button>
+        <button class="sticker-button" id="sticker54"></button>
+        <button class="sticker-button" id="sticker53"></button>
+        <button class="sticker-button" id="sticker52"></button>
+        <button class="sticker-button" id="sticker51"></button>
+        <button class="sticker-button" id="sticker50"></button>
+
+        <button class="sticker-button" id="sticker49"></button>
+        <button class="sticker-button" id="sticker48"></button>
+        <button class="sticker-button" id="sticker47"></button>
+        <button class="sticker-button" id="sticker46"></button>
+        <button class="sticker-button" id="sticker45"></button>
+        <button class="sticker-button" id="sticker44"></button>
+        <button class="sticker-button" id="sticker43"></button>
+        <button class="sticker-button" id="sticker42"></button>
+        <button class="sticker-button" id="sticker41"></button>
+        <button class="sticker-button" id="sticker40"></button>
+
+        <button class="sticker-button" id="sticker39"></button>
+        <button class="sticker-button" id="sticker38"></button>
+        <button class="sticker-button" id="sticker37"></button>
+        <button class="sticker-button" id="sticker36"></button>
+        <button class="sticker-button" id="sticker35"></button>
+        <button class="sticker-button" id="sticker34"></button>
+        <button class="sticker-button" id="sticker33"></button>
+        <button class="sticker-button" id="sticker32"></button>
+        <button class="sticker-button" id="sticker31"></button>
+        <button class="sticker-button" id="sticker30"></button>
+
+        <button class="sticker-button" id="sticker29"></button>
+        <button class="sticker-button" id="sticker28"></button>
+        <button class="sticker-button" id="sticker27"></button>
+        <button class="sticker-button" id="sticker26"></button>
+        <button class="sticker-button" id="sticker25"></button>
+        <button class="sticker-button" id="sticker24"></button>
+        <button class="sticker-button" id="sticker23"></button>
+        <button class="sticker-button" id="sticker22"></button>
+        <button class="sticker-button" id="sticker21"></button>
+        <button class="sticker-button" id="sticker20"></button>
+
+        <button class="sticker-button" id="sticker19"></button>
+        <button class="sticker-button" id="sticker18"></button>
+        <button class="sticker-button" id="sticker17"></button>
+        <button class="sticker-button" id="sticker16"></button>
+        <button class="sticker-button" id="sticker15"></button>
+        <button class="sticker-button" id="sticker14"></button>
+        <button class="sticker-button" id="sticker13"></button>
+        <button class="sticker-button" id="sticker12"></button>
+        <button class="sticker-button" id="sticker11"></button>
+        <button class="sticker-button" id="sticker10"></button>
+
+        <button class="sticker-button" id="sticker9"></button>
+        <button class="sticker-button" id="sticker8"></button>
+        <button class="sticker-button" id="sticker7"></button>
+        <button class="sticker-button" id="sticker6"></button>
+        <button class="sticker-button" id="sticker5"></button>
+        <button class="sticker-button" id="sticker4"></button>
+        <button class="sticker-button" id="sticker3"></button>
+        <button class="sticker-button" id="sticker2"></button>
+        <button class="sticker-button" id="sticker1"></button>
+        <button class="sticker-button" id="sticker0"></button>
       </div>
 
       <div class="textures" id="textures">
