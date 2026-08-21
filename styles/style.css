@@ -1372,6 +1372,22 @@ canvas {
   -webkit-touch-callout: none;
 }
 
+.ad-countdown-layer {
+  position: fixed;
+  right: 2dvw;
+  top: 2dvh;
+  background: rgba(0, 0, 0, 0.4);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  z-index: 100;
+  pointer-events: none;
+  backdrop-filter: blur(4px);
+  transition: opacity 0.3s ease;
+}
+
 .hidden {
   display: none !important;
 }

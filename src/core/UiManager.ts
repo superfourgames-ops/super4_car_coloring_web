@@ -1,7 +1,7 @@
 import { AppState, setColor, setSticker, setTexture, setTool, subscribe, toolState } from "../state.js";
 import { applyTextureToElementTextureTool, textureConfettiLight, textureDiagonalPopins, textureVibrantHeart, texturePolkaDots, textureClouds, TextureFn, textures } from "../textures.js";
 import { uploadImage } from "../upload.js";
-import { toolsUnlocked, parental } from "../utils/queryParamParser.js";
+import { toolsUnlocked, parental, adsFree, gameplayInterstitialInterval } from "../utils/queryParamParser.js";
 import { App } from "./App.js";
 import { ParentalOverlayManager } from "./ParentalOverlayManager.js";
 import { SoundManager } from "./SoundManager.js";
@@ -103,8 +103,13 @@ export class UiManager {
     private totalStickers: number = 81;
     private totalTextures: number = 0;
     private brushSize: string = "small";
+    private adTimer: number = 0;
+    private adInterval: any;
 
     constructor() {
+        if (!adsFree) {
+            this.startAdTimer();
+        }
         this.totalTextures = Object.keys(textures).length;
         const overlay = ParentalOverlayManager.getInstance();
         const HOLD_DURATION = 3; 
@@ -439,6 +444,37 @@ export class UiManager {
 
         // console.log(output);
         uploadImage(blob, output);
+    }
+
+    private startAdTimer(): void {
+        this.adTimer = 0;
+        if (this.adInterval) clearInterval(this.adInterval);
+
+        this.adInterval = setInterval(() => {
+            this.adTimer++;
+            if (this.adTimer >= gameplayInterstitialInterval) {
+                // Show ad
+                this.adTimer = 0; // reset
+                window.location.href = 'unity://interstitial';
+                const adLayer = document.getElementById('adCountdownLayer');
+                if (adLayer) adLayer.classList.add('hidden');
+            } else if (this.adTimer >= gameplayInterstitialInterval - 3) {
+                // Show countdown
+                const remaining = gameplayInterstitialInterval - this.adTimer;
+                const adLayer = document.getElementById('adCountdownLayer');
+                const adText = document.getElementById('adCountdownSeconds');
+                if (adLayer && adText) {
+                    adLayer.classList.remove('hidden');
+                    adText.innerText = remaining.toString();
+                }
+            } else {
+                // Hide countdown just in case
+                const adLayer = document.getElementById('adCountdownLayer');
+                if (adLayer && !adLayer.classList.contains('hidden')) {
+                    adLayer.classList.add('hidden');
+                }
+            }
+        }, 1000);
     }
 }
 

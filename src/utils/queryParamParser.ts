@@ -22,3 +22,9 @@ const languageParam = searchParams.get("language");
 // parseInt(value, 10) ensures base-10 parsing. 
 // If the result is NaN (Not a Number), we fallback to 0.
 export const language = languageParam ? (parseInt(languageParam, 10) || 0) : 0;
+
+const adsFreeParam = searchParams.get("adsFree");
+export const adsFree = adsFreeParam ? adsFreeParam === 'true' : false;
+
+const gameplayInterstitialIntervalParam = searchParams.get("gameplayInterstitialInterval");
+export const gameplayInterstitialInterval = gameplayInterstitialIntervalParam ? (parseInt(gameplayInterstitialIntervalParam, 10) || 120) : 120;
