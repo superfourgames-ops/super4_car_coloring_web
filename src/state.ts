@@ -1,3 +1,5 @@
+import { isNeonMode } from "./utils/queryParamParser.js";
+
 export interface AppState {
   tool: string;
   color?: string;
@@ -10,6 +12,7 @@ export interface AppState {
 /* ============================= State ============================= */
 
 export const toolState: Record<string, AppState> = {
+  neon: { tool: 'neon', color: 'rainbow', colorId: 'rainbow', locked: false },
   marker: { tool: 'marker', color: '#DA4527', colorId: 'DA4527', locked: false },
   crayon: { tool: 'crayon', color: '#9000D3', colorId: '9000D3', locked: false },
   bucket: { tool: 'bucket', color: '#FFA500', colorId: '#FFA500', locked: false },
@@ -24,9 +27,20 @@ export const toolState: Record<string, AppState> = {
   eraser: { tool: 'eraser', locked: false },
 };
 
-let currentTool: AppState = toolState.marker;
+let currentTool: AppState = isNeonMode ? toolState.neon : toolState.marker;
 
 export const listeners: Set<(state: AppState) => void> = new Set();
+
+export type BrushSize = 'small' | 'medium' | 'large';
+let currentBrushSize: BrushSize = 'small';
+
+export function getBrushSize(): BrushSize {
+  return currentBrushSize;
+}
+
+export function setBrushSize(size: BrushSize): void {
+  currentBrushSize = size;
+}
 
 /* ============================= Actions ============================= */
 

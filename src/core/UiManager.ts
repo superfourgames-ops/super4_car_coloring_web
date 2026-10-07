@@ -1,7 +1,7 @@
-import { AppState, setColor, setSticker, setTexture, setTool, subscribe, toolState } from "../state.js";
+import { AppState, setColor, setSticker, setTexture, setTool, subscribe, toolState, setBrushSize, getCurrentTool } from "../state.js";
 import { applyTextureToElementTextureTool, textureConfettiLight, textureDiagonalPopins, textureVibrantHeart, texturePolkaDots, textureClouds, TextureFn, textures } from "../textures.js";
 import { uploadImage } from "../upload.js";
-import { toolsUnlocked, parental, adsFree, gameplayInterstitialInterval } from "../utils/queryParamParser.js";
+import { toolsUnlocked, parental, adsFree, gameplayInterstitialInterval, isNeonMode } from "../utils/queryParamParser.js";
 import { App } from "./App.js";
 import { ParentalOverlayManager } from "./ParentalOverlayManager.js";
 import { SoundManager } from "./SoundManager.js";
@@ -114,6 +114,11 @@ export class UiManager {
         const overlay = ParentalOverlayManager.getInstance();
         const HOLD_DURATION = 3; 
 
+        if (isNeonMode) {
+            document.body.classList.add('mode-neon');
+            setTool('neon');
+        } 
+
         // Click Listeners to Tools
         for (let i = 0; i < this.tools.length; i++) {
             const tool = this.tools[i];
@@ -179,14 +184,23 @@ export class UiManager {
 
         
 
+        const handleColorSelect = (id: string, hex: string) => {
+            App.sound.PlaySFX(App.sound.buttonClick, 0, false);
+            if (isNeonMode && getCurrentTool().colorId === id) {
+                setColor('rainbow', 'rainbow');
+            } else {
+                this.onColorButtonChanged(id);
+                setColor(hex, id);
+            }
+        };
+
         //Click Listeners to Colors
         (Object.entries(this.colors) as [string, string][]).forEach(
           ([id, hex]) => {
             const colorElement = document.getElementById(id) as HTMLButtonElement;
-            colorElement.addEventListener('click', () => {
-                App.sound.PlaySFX(App.sound.buttonClick, 0, false);
-                setColor(hex, id);
-            })
+            if (colorElement) {
+                colorElement.addEventListener('click', () => handleColorSelect(id, hex));
+            }
           }
         );
 
@@ -286,8 +300,11 @@ export class UiManager {
                     this.showPallete('none');
                 break;
                 case 'eraser':
-                    //btn.style.setProperty('--eraser-color', color);
                     this.showPallete('none');
+                    break;
+                case 'neon':
+                    this.showPallete('colors');
+                    this.onColorButtonChanged(colorId && colorId !== 'rainbow' ? colorId : '');
                     break;
             }
         });
@@ -315,23 +332,32 @@ export class UiManager {
 
 
         const sizeBtn = document.getElementById("size") as HTMLButtonElement;
-        const sizes = ["xsmall", "small", "medium", "large"] as const;
-        let index = 1;
+        const sizes = ["small", "medium", "large"] as const;
+        let index = 0;
 
+        sizeBtn.classList.remove("xsmall", "small", "medium", "large");
         sizeBtn.classList.add(sizes[index]);
+        setBrushSize(sizes[index]);
 
-        sizeBtn.addEventListener("click", () => {
+        const cycleSize = (e?: Event) => {
+            if (e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
             App.sound.PlaySFX(App.sound.buttonClick, 0, false);
-            sizeBtn.classList.remove(sizes[index]);
+            sizeBtn.classList.remove("xsmall", "small", "medium", "large");
             index = (index + 1) % sizes.length;
             this.brushSize = sizes[index];
+            setBrushSize(sizes[index]);
             sizeBtn.classList.add(sizes[index]);
-        });
+        };
+
+        sizeBtn.addEventListener("click", cycleSize);
 
         this.loadTexturePallete();
 
 
-        setTool('brush');
+        setTool(isNeonMode ? 'neon' : 'brush');
     }
 
 
@@ -416,6 +442,7 @@ export class UiManager {
     }
 
     private loadTexturePallete(): void {
+        if (isNeonMode) return;
         setTool('texture');
         (Object.entries(textures) as [string, TextureFn][]).forEach(
           ([K, V]) => {

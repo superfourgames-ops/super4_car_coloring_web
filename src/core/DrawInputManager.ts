@@ -1,9 +1,11 @@
 import { IBrush } from "../brushes/interface/IBrush.js";
 import { Point } from "../models/Point.js";
 import { Stroke } from "../models/Stroke.js";
-import { AppState, getCurrentTool, subscribe } from "../state.js";
+import { AppState, getCurrentTool, getBrushSize as getGlobalBrushSize, subscribe } from "../state.js";
 import { App } from "./App.js";
 import { RendererManager } from "./RenderManager.js";
+import { isNeonMode } from "../utils/queryParamParser.js";
+import { Neon } from "../brushes/Neon.js";
 
 interface Action {
     brush:  IBrush;
@@ -31,7 +33,7 @@ export class DrawInputManager {
     constructor(liveCanvas: HTMLCanvasElement, container: HTMLElement) {
         this.liveCanvas = liveCanvas;
         this.container = container;
-        this.currentBrush = App.render.getBrush('brush');
+        this.currentBrush = App.render.getBrush(isNeonMode ? 'neon' : 'brush');
 
         this.liveCanvas.addEventListener('pointerdown', (e: PointerEvent) => {
             this.liveCanvas.setPointerCapture(e.pointerId);
@@ -58,10 +60,14 @@ export class DrawInputManager {
 
             // 1 FINGER: Start Drawing
             if (this.activePointers.size === 1) {
+                const brush = isNeonMode ? App.render.getBrush('neon') : this.currentBrush;
+                const activeColor = getCurrentTool().color;
+                const isRainbow = !activeColor || activeColor === 'rainbow';
+                const color = (isNeonMode && isRainbow) ? Neon.getNextColor() : (activeColor || '#FFFF00');
                 this.current = {
-                    brush: this.currentBrush,
+                    brush: brush,
                     stroke: {
-                        color: getCurrentTool().color,
+                        color: color,
                         size: this.getBrushSize(),
                         points: [this.getPos(e)],
                         particles: [],
@@ -74,7 +80,7 @@ export class DrawInputManager {
                     },
                 };
                 this.current.stroke.points.push(this.getPos(e));
-                this.currentBrush.drawOnPointerDown(this.current.stroke);
+                brush.drawOnPointerDown(this.current.stroke);
             }
         });
 
@@ -120,7 +126,7 @@ export class DrawInputManager {
             // 1 FINGER: Update Drawing
             if (this.activePointers.size === 1 && this.current) {
                 this.current.stroke.points.push(this.getPos(e));
-                this.currentBrush.drawOnPointerMove(this.current.stroke);
+                this.current.brush.drawOnPointerMove(this.current.stroke);
             }
         });
 
@@ -130,7 +136,7 @@ export class DrawInputManager {
 
             // If we finish drawing
             if (this.current && this.activePointers.size === 0) {
-                this.currentBrush.drawOnPointerUp(this.current.stroke);
+                this.current.brush.drawOnPointerUp(this.current.stroke);
                 this.current = null;
             }
         };
@@ -153,7 +159,24 @@ export class DrawInputManager {
 
     private getBrushSize(): number {
         const base = Math.min(RendererManager.cssW ?? 0, RendererManager.cssH ?? 0);
-        const brushSize = App.ui.getBrushSize();
+        let brushSize: string = getGlobalBrushSize();
+
+        // Direct DOM fallback guaranteed to match whatever size class the button currently has
+        const sizeEl = document.getElementById('size');
+        if (sizeEl) {
+            if (sizeEl.classList.contains('large')) brushSize = 'large';
+            else if (sizeEl.classList.contains('medium')) brushSize = 'medium';
+            else if (sizeEl.classList.contains('small')) brushSize = 'small';
+        }
+
+        if (isNeonMode) {
+            switch (brushSize) {
+                case 'small': return Math.max(14, base * 0.022);
+                case 'medium': return Math.max(22, base * 0.034);
+                case 'large': return Math.max(32, base * 0.048);
+                default: return Math.max(14, base * 0.022);
+            }
+        }
 
         switch (brushSize) {
             case 'xsmall': return base * 0.006;

@@ -1391,3 +1391,142 @@ canvas {
 .hidden {
   display: none !important;
 }
+
+/* ======================== Neon Game Mode ======================== */
+body.mode-neon .app {
+    background: #000000 !important;
+}
+
+body.mode-neon .bg-doodles,
+body.mode-neon #bg-doodles,
+body.mode-neon .tools,
+body.mode-neon #stickers,
+body.mode-neon #textures {
+    display: none !important;
+}
+
+body.mode-neon .colors {
+    display: flex !important;
+    width: 8.5dvw !important;
+    right: 1.5dvw !important;
+    left: auto !important;
+    gap: 3.6dvh !important;
+    z-index: 50 !important;
+    background: transparent !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+}
+
+body.mode-neon .colors::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+}
+
+body.mode-neon .color-button {
+    width: 5.8dvw !important;
+    height: 5.8dvw !important;
+}
+
+body.mode-neon .color-button.active {
+    outline: 0.6dvh solid #ffffff !important;
+    outline-offset: 0.3dvh !important;
+    box-shadow: 0 0 0 2px #000000, 0 0 12px #ffffff !important;
+}
+
+body.mode-neon #size {
+    position: fixed !important;
+    top: 15dvh !important;
+    left: 2dvw !important;
+    right: auto !important;
+    width: 8vmin !important;
+    height: 8vmin !important;
+    border: 2px solid rgba(0, 220, 255, 0.7) !important;
+    background: rgba(14, 18, 32, 0.8) !important;
+    box-shadow: 0 0 15px rgba(0, 200, 255, 0.35) !important;
+    border-radius: 14px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    z-index: 120 !important;
+    pointer-events: auto !important;
+}
+
+body.mode-neon #size .dot,
+body.mode-neon #size.small .dot,
+body.mode-neon #size.medium .dot,
+body.mode-neon #size.large .dot {
+    background-color: #00ffff !important;
+    border-radius: 50% !important;
+    box-shadow: 0 0 8px #00ffff, 0 0 16px rgba(255, 255, 255, 0.95) !important;
+    pointer-events: none !important;
+    display: block !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    transition: width 0.2s ease, height 0.2s ease;
+}
+
+body.mode-neon #size .dot,
+body.mode-neon #size.small .dot {
+    width: 2.2vmin !important;
+    height: 2.2vmin !important;
+}
+
+body.mode-neon #size.medium .dot {
+    width: 3.8vmin !important;
+    height: 3.8vmin !important;
+}
+
+body.mode-neon #size.large .dot {
+    width: 5.6vmin !important;
+    height: 5.6vmin !important;
+}
+
+body.mode-neon #home,
+body.mode-neon #bin {
+    z-index: 120 !important;
+    pointer-events: auto !important;
+}
+
+body.mode-neon #canvas-container {
+    z-index: 5;
+    pointer-events: auto;
+}
+
+body.mode-neon #baseCanvas {
+    z-index: 1 !important;
+    background-color: #000000 !important;
+    box-shadow: 0 0 35px rgba(0, 200, 255, 0.2), inset 0 0 15px rgba(0, 0, 0, 0.8), 0 0 0 2px rgba(0, 200, 255, 0.25) !important;
+    border: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    pointer-events: none !important;
+}
+
+body.mode-neon #imageCanvas {
+    z-index: 2 !important;
+    pointer-events: none !important;
+    /* Inverts dark dashed lines into glowing light guide lines */
+    filter: invert(1) brightness(2) contrast(1.5) drop-shadow(0 0 4px rgba(100, 220, 255, 0.7));
+    box-shadow: none !important;
+}
+
+body.mode-neon #glitterCanvas {
+    display: none !important;
+    pointer-events: none !important;
+}
+
+body.mode-neon #liveCanvas {
+    z-index: 10 !important;
+    pointer-events: auto !important;
+    cursor: crosshair;
+}
+
+body.mode-neon .ui-layer {
+    z-index: 100;
+}

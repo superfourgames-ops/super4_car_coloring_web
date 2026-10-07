@@ -12,6 +12,8 @@ import { SoapBubbles } from "../brushes/SoapBubble.js";
 import { Spray } from "../brushes/Spray.js";
 import { Sticker } from "../brushes/Sticker.js";
 import { Texture } from "../brushes/Texture.js";
+import { Neon } from "../brushes/Neon.js";
+import { isNeonMode } from "../utils/queryParamParser.js";
 interface Star {
     x: number;
     y: number;
@@ -103,6 +105,7 @@ export class RendererManager {
 
         this.brushes = {
             boundaryBrush: new BoundaryBrush(this.bctx, this.lctx, this.mctx),
+            neon: new Neon(this.bctx, this.lctx, this.mctx),
             brush: new Brush(this.bctx, this.lctx, this.mctx),
             bucket: new Bucket(this.bctx, this.lctx, this.mctx),
             crayon: new Crayon(this.bctx, this.lctx, this.mctx),
@@ -227,22 +230,29 @@ export class RendererManager {
         const H = window.innerHeight;
         const ratio = 16 / 9;
 
-        // 25% UI space on the right
-        const leftPadding = W * 0.075;
-        
-        const rightPadding = W * 0.191;
+        // UI space adjustments: in neon mode, buttons on left (8.5vw) and color dock on right (11vw)
+        const leftPadding = isNeonMode ? W * 0.085 : W * 0.075;
+        const rightPadding = isNeonMode ? W * 0.11 : W * 0.191;
         const availableWidth = W - leftPadding - rightPadding;
+        const maxH = isNeonMode ? H * 0.90 : H;
+
         // Fit 16:9 canvas inside remaining area
         let cssW = availableWidth;
         let cssH = cssW / ratio;
 
-        if (cssH > H) {
-            cssH = H;
+        if (cssH > maxH) {
+            cssH = maxH;
             cssW = cssH * ratio;
         }
 
         cssW = Math.max(1, Math.floor(cssW));
         cssH = Math.max(1, Math.floor(cssH));
+
+        // Center horizontally within available area between leftPadding and rightPadding
+        const extraHorizontalSpace = Math.max(0, availableWidth - cssW);
+        const finalLeft = isNeonMode
+            ? Math.floor(leftPadding + (extraHorizontalSpace / 2))
+            : Math.floor(leftPadding);
 
         // === DPR logic (UNCHANGED) ===
         const DPR = window.devicePixelRatio || 1;
@@ -269,7 +279,7 @@ export class RendererManager {
             canvas.height = scaledH * backingScale;
             canvas.style.width = `${cssW}px`;
             canvas.style.height = `${cssH}px`;
-            canvas.style.left = `${leftPadding}px`;
+            canvas.style.left = `${finalLeft}px`;
             canvas.style.right = `${rightPadding}px`;
             canvas.style.top = `50%`;
             canvas.style.transform = `translateY(-50%)`;
@@ -319,31 +329,15 @@ export class RendererManager {
 
     private loadOutlineImage() {
         const image = new Image();
-        // console.log(window.location.search);
-
-
-        //this will be passed by unity, that which picture is clicked in main menu.
-        //image.src = 'assets/coloring_pages/halloween_0.png';
 
         const params = new URLSearchParams(window.location.search);
         const imagePath = params.get("imagePath");
         
-        console.log("Image path for outline image:", imagePath);
-
-        //test, not loaded from unity
-        if(imagePath == null) {
-            image.src = 'assets/coloring-pages/cake/cake_00.png'
-        }
-
-        if(imagePath) {
-            image.src = imagePath;
-            this.currentImagePath = imagePath;
-        }
-       
-
+        const resolvedPath = imagePath || (isNeonMode ? 'assets/coloring-pages/neon/neon_00.png' : 'assets/coloring-pages/sports/sports_00.png');
+        this.currentImagePath = resolvedPath;
 
         image.onload = () => {
-            console.log("Image loaded successfully");
+            console.log("Image loaded successfully:", resolvedPath);
             RendererManager.outlineImage = image;
             if (!this.ictx) return;
             if (RendererManager.cssW == null || RendererManager.cssH == null) return;
@@ -374,11 +368,16 @@ export class RendererManager {
             const dy = (cssH - drawH) / 2;
 
             this.ictx.drawImage(image, dx, dy, drawW, drawH);
-        }
+        };
 
         image.onerror = () => {
-            console.error("Failed to load image");
+            console.error("Failed to load image:", resolvedPath);
         };
+
+        image.src = resolvedPath;
+        if (image.complete && image.naturalWidth > 0) {
+            image.onload(new Event('load'));
+        }
     }
 
     private loadBaseImage() {

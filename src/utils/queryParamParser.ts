@@ -28,3 +28,6 @@ export const adsFree = adsFreeParam ? adsFreeParam === 'true' : false;
 
 const gameplayInterstitialIntervalParam = searchParams.get("gameplayInterstitialInterval");
 export const gameplayInterstitialInterval = gameplayInterstitialIntervalParam ? (parseInt(gameplayInterstitialIntervalParam, 10) || 120) : 120;
+
+const modeParam = searchParams.get("mode");
+export const isNeonMode = modeParam === "neon" || Boolean(imagePath && imagePath.toLowerCase().includes("/neon/"));
