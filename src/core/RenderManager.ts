@@ -381,6 +381,7 @@ export class RendererManager {
     }
 
     private loadBaseImage() {
+        if (isNeonMode) return;
         const image = new Image();
         //console.log(window.location.search);
         //this will be passed by unity, that which picture is clicked in main menu.
