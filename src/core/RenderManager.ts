@@ -230,29 +230,37 @@ export class RendererManager {
         const H = window.innerHeight;
         const ratio = 16 / 9;
 
-        // UI space adjustments: in neon mode, buttons on left (8.5vw) and color dock on right (11vw)
-        const leftPadding = isNeonMode ? W * 0.085 : W * 0.075;
-        const rightPadding = isNeonMode ? W * 0.11 : W * 0.191;
-        const availableWidth = W - leftPadding - rightPadding;
-        const maxH = isNeonMode ? H * 0.90 : H;
+        let cssW: number;
+        let cssH: number;
+        let finalLeft: number;
 
-        // Fit 16:9 canvas inside remaining area
-        let cssW = availableWidth;
-        let cssH = cssW / ratio;
+        if (isNeonMode) {
+            // In neon mode, maximize the drawing area so the border of the canvas nearly matches the edge of the screen
+            const marginX = Math.max(8, Math.floor(W * 0.012));
+            const marginY = Math.max(8, Math.floor(H * 0.015));
 
-        if (cssH > maxH) {
-            cssH = maxH;
-            cssW = cssH * ratio;
+            cssW = Math.max(1, Math.floor(W - marginX * 2));
+            cssH = Math.max(1, Math.floor(H - marginY * 2));
+            finalLeft = marginX;
+        } else {
+            // Standard mode (16:9 canvas with toolbar padding)
+            const leftPadding = W * 0.075;
+            const rightPadding = W * 0.191;
+            const availableWidth = W - leftPadding - rightPadding;
+            const maxH = H;
+
+            cssW = availableWidth;
+            cssH = cssW / ratio;
+
+            if (cssH > maxH) {
+                cssH = maxH;
+                cssW = cssH * ratio;
+            }
+
+            cssW = Math.max(1, Math.floor(cssW));
+            cssH = Math.max(1, Math.floor(cssH));
+            finalLeft = Math.floor(leftPadding);
         }
-
-        cssW = Math.max(1, Math.floor(cssW));
-        cssH = Math.max(1, Math.floor(cssH));
-
-        // Center horizontally within available area between leftPadding and rightPadding
-        const extraHorizontalSpace = Math.max(0, availableWidth - cssW);
-        const finalLeft = isNeonMode
-            ? Math.floor(leftPadding + (extraHorizontalSpace / 2))
-            : Math.floor(leftPadding);
 
         // === DPR logic (UNCHANGED) ===
         const DPR = window.devicePixelRatio || 1;
@@ -280,7 +288,6 @@ export class RendererManager {
             canvas.style.width = `${cssW}px`;
             canvas.style.height = `${cssH}px`;
             canvas.style.left = `${finalLeft}px`;
-            canvas.style.right = `${rightPadding}px`;
             canvas.style.top = `50%`;
             canvas.style.transform = `translateY(-50%)`;
 
@@ -451,17 +458,29 @@ export class RendererManager {
             ctx.setTransform(1, 0, 0, 1, 0, 0);
             ctx.clearRect(0, 0, 1600, 900);
 
-            // Draw the BASE canvas into fixed 1600×900
+            // Draw the BASE canvas into fixed 1600×900 with aspect-fit
+            const canvasAspect = this.baseCanvasEl.width / this.baseCanvasEl.height;
+            const targetAspect = 1600 / 900;
+            let destW = 1600;
+            let destH = 900;
+            if (canvasAspect > targetAspect) {
+                destH = 1600 / canvasAspect;
+            } else {
+                destW = 900 * canvasAspect;
+            }
+            const destX = (1600 - destW) / 2;
+            const destY = (900 - destH) / 2;
+
             ctx.drawImage(
                 this.baseCanvasEl,
                 0,
                 0,
                 this.baseCanvasEl.width,
                 this.baseCanvasEl.height,
-                0,
-                0,
-                1600,
-                900
+                destX,
+                destY,
+                destW,
+                destH
             );
 
             this.exportCanvas.toBlob((blob) => {

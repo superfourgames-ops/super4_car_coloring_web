@@ -171,10 +171,10 @@ export class DrawInputManager {
 
         if (isNeonMode) {
             switch (brushSize) {
-                case 'small': return Math.max(14, base * 0.022);
-                case 'medium': return Math.max(22, base * 0.034);
-                case 'large': return Math.max(32, base * 0.048);
-                default: return Math.max(14, base * 0.022);
+                case 'small': return Math.max(6, base * 0.0088);
+                case 'medium': return Math.max(9, base * 0.015);
+                case 'large': return Math.max(13, base * 0.025);
+                default: return Math.max(6, base * 0.0088);
             }
         }
 
