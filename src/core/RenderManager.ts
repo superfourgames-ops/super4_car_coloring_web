@@ -458,6 +458,11 @@ export class RendererManager {
             ctx.setTransform(1, 0, 0, 1, 0, 0);
             ctx.clearRect(0, 0, 1600, 900);
 
+            if (isNeonMode) {
+                ctx.fillStyle = "#0e1e40";
+                ctx.fillRect(0, 0, 1600, 900);
+            }
+
             // Draw the BASE canvas into fixed 1600×900 with aspect-fit
             const canvasAspect = this.baseCanvasEl.width / this.baseCanvasEl.height;
             const targetAspect = 1600 / 900;
