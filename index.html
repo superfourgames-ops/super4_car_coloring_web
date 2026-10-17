@@ -1,6 +1,21 @@
 <!doctype html>
 <html>
 <head>
+<script>
+  // Prevent Android System WebView bridge crashes (WV.ol.addMessageToConsole / SIGTRAP)
+  if (window.console) {
+    var _noop = function() {};
+    console.log = _noop;
+    console.debug = _noop;
+    console.info = _noop;
+  }
+  window.onAppPause = function() {
+    if (window.Howler) { try { Howler.mute(true); } catch(e){} }
+  };
+  window.onAppResume = function() {
+    if (window.Howler && !window.isAudioMuted) { try { Howler.mute(false); } catch(e){} }
+  };
+</script>
 <meta charset="utf-8" />
 <meta name="viewport"
       content="width=device-width,
@@ -355,10 +370,6 @@
         <button class="home-button" id="home"></button>
         <button class="bin-button" id="bin"></button>
         <button id="size"><span class="dot"></span></button>
-    </div>
-
-    <div id="adCountdownLayer" class="ad-countdown-layer hidden">
-        ad in <span id="adCountdownSeconds">3</span>
     </div>
 
     <div id="parentalOverlay" class="parental-overlay hidden">
