@@ -356,37 +356,22 @@ export class UiManager {
 
 
     private onHomeButtonClicked(): void {
-        App.loading.show();
-        this.uploadImage().then(() => {
-            setTimeout(() => {
-                window.location.href = 'unity://home';
-            }, 1000);
-        });
+        App.loading?.show();
+        if (!adsFree) {
+            window.location.href = 'unity://interstitial';
+        }
 
-
-        //window.location.href = 'index.html';
-        //window.location.href = 'unity://purchase?productId=adsFree';
-        // uploadImage(new Blob(), "draw_0.png");
-
-        // if(!adsFree) {
-        //     window.location.href = 'unity://purchase?productId=adsFree';
-        //     return;
-        // }
-        // Swal.fire({
-        //     title: "Do you want to save the changes?",
-        //     showDenyButton: true,
-        //     showCancelButton: true,
-        //     confirmButtonText: "Save",
-        //     denyButtonText: `Don't save`
-        // }).then((result) => {
-        //     if (result.isConfirmed) {
-        //         this.uploadImage().then(() => {
-        //             window.location.href = 'unity://home';
-        //         });
-        //     } else if (result.isDenied) {
-        //         window.location.href = 'unity://home';
-        //     }
-        // });
+        setTimeout(() => {
+            this.uploadImage()
+                .catch((err) => {
+                    console.error("Failed to upload image on home click:", err);
+                })
+                .finally(() => {
+                    setTimeout(() => {
+                        window.location.href = 'unity://home';
+                    }, 100);
+                });
+        }, 600);
     }
 
 
